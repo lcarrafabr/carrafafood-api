@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.carrafasoft.carrafafood.CarrafafoodApiApplication;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
+import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 
 public class BuscaCozinhaMain {
 	
@@ -15,7 +16,7 @@ public class BuscaCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cadastroCozinha = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinhas = cadastroCozinha.buscar(1L);
 		

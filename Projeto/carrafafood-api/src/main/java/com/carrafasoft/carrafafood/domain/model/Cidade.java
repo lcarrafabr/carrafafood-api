@@ -1,7 +1,5 @@
 package com.carrafasoft.carrafafood.domain.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,25 +7,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 
 @Entity
-public class Restaurante {
-	
+public class Cidade {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nome;
-	
-	@Column(name = "taxa_frete", nullable = false)
-	private BigDecimal taxaFrete;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "cozinha_id", nullable = false)
-	private Cozinha cozinha;
+	@JoinColumn(nullable = false)
+	private Estado estado;
 
 	public Long getId() {
 		return id;
@@ -45,12 +38,12 @@ public class Restaurante {
 		this.nome = nome;
 	}
 
-	public BigDecimal getTaxaFrete() {
-		return taxaFrete;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setTaxaFrete(BigDecimal taxaFrete) {
-		this.taxaFrete = taxaFrete;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -69,30 +62,13 @@ public class Restaurante {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Restaurante other = (Restaurante) obj;
+		Cidade other = (Cidade) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	
-	@PrePersist
-	public void aoCadastrar() {
-
-		toUpperCase();
-	}
-
-	@PreUpdate
-	public void aoAtualizar() {
-
-		toUpperCase();
-	}
-
-	private void toUpperCase() {
-
-		nome = nome.toUpperCase().trim();
 	}
 
 }
