@@ -2,13 +2,17 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -55,6 +59,41 @@ public class CozinhaController {
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
 		
 		return cozinhaRepository.salvar(cozinha);
+	}
+	
+	@PutMapping("/{cozinhaId}")
+	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+		
+		Cozinha cozinhaSalva = cozinhaRepository.buscar(cozinhaId);
+		
+		if(cozinhaSalva!= null) {
+			//cozinhaSalva.setNome(cozinha.getNome());
+			BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
+			cozinhaRepository.salvar(cozinhaSalva);
+			return ResponseEntity.ok(cozinhaSalva);
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/{cozinhaId}")
+	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
+		
+		try {
+			
+			Cozinha cozinhaSalva = cozinhaRepository.buscar(cozinhaId);
+			if(cozinhaSalva != null) {
+				cozinhaRepository.remover(cozinhaSalva);
+				
+				return ResponseEntity.noContent().build();
+			}
+			
+			return ResponseEntity.notFound().build();
+			
+		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+		
+		
 	}
 
 }
