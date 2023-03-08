@@ -75,7 +75,7 @@ public class CozinhaController {
 		if (cozinhaSalva != null) {
 			// cozinhaSalva.setNome(cozinha.getNome());
 			BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
-			cozinhaRepository.salvar(cozinhaSalva);
+			cozinhaService.salvar(cozinhaSalva);
 			return ResponseEntity.ok(cozinhaSalva);
 		}
 		return ResponseEntity.notFound().build();
