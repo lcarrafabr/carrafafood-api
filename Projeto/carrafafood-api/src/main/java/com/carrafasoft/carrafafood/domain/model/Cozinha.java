@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Cozinha {
 
@@ -14,6 +16,7 @@ public class Cozinha {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonProperty(value = "nome")
 	private String nome;
 
 	public Long getId() {
