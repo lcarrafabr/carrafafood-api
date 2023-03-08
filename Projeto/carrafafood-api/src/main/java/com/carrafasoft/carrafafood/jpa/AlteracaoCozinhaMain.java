@@ -21,7 +21,7 @@ public class AlteracaoCozinhaMain {
 		Cozinha cozinha01 = new Cozinha();
 		cozinha01.setId(3L);
 		
-		cozinhaRepository.remover(cozinha01);
+		cozinhaRepository.remover(cozinha01.getId());
 	}
 
 }
