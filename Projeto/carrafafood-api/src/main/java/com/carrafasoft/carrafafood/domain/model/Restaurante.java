@@ -14,16 +14,19 @@ import javax.persistence.PreUpdate;
 
 @Entity
 public class Restaurante {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nome;
-	
+
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
+
+	@ManyToOne
+	private Cozinha cozinha;
 
 	public Long getId() {
 		return id;
@@ -47,6 +50,14 @@ public class Restaurante {
 
 	public void setTaxaFrete(BigDecimal taxaFrete) {
 		this.taxaFrete = taxaFrete;
+	}
+
+	public Cozinha getCozinha() {
+		return cozinha;
+	}
+
+	public void setCozinha(Cozinha cozinha) {
+		this.cozinha = cozinha;
 	}
 
 	@Override
@@ -73,7 +84,7 @@ public class Restaurante {
 			return false;
 		return true;
 	}
-	
+
 	@PrePersist
 	public void aoCadastrar() {
 
