@@ -1,5 +1,7 @@
 package com.carrafasoft.carrafafood.jpa;
 
+import java.util.Optional;
+
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -18,9 +20,9 @@ public class BuscaCozinhaMain {
 		
 		CozinhaRepository cadastroCozinha = applicationContext.getBean(CozinhaRepository.class);
 		
-		Cozinha cozinhas = cadastroCozinha.buscar(1L);
+		Optional<Cozinha> cozinhas = cadastroCozinha.findById(1L);
 		
-		System.out.println(cozinhas.getNome());
+		System.out.println(cozinhas.get().getNome());
 	}
 
 }

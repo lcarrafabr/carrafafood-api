@@ -20,12 +20,12 @@ public class CadastroEstadoService {
 	public static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
 	
 	public Estado salvar(Estado estado) {
-        return estadoRepository.salvar(estado);
+        return estadoRepository.save(estado);
     }
     
     public void excluir(Long estadoId) {
         try {
-            estadoRepository.remover(estadoId);
+            estadoRepository.deleteById(estadoId);
             
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

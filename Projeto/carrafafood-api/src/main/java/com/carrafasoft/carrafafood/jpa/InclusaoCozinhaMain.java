@@ -20,7 +20,7 @@ public class InclusaoCozinhaMain {
 		
 		CozinhaRepository cadastroCozinha = applicationContext.getBean(CozinhaRepository.class);
 		
-		List<Cozinha> cozinhas = cadastroCozinha.listar();
+		List<Cozinha> cozinhas = cadastroCozinha.findAll();
 		
 		Cozinha cozinha01 = new Cozinha();
 		cozinha01.setNome("Japonesa");
@@ -28,8 +28,8 @@ public class InclusaoCozinhaMain {
 		Cozinha cozinha02 = new Cozinha();
 		cozinha02.setNome("Italiana");
 		
-		cozinha01 = cadastroCozinha.salvar(cozinha01);
-		cozinha02 = cadastroCozinha.salvar(cozinha02);
+		cozinha01 = cadastroCozinha.save(cozinha01);
+		cozinha02 = cadastroCozinha.save(cozinha02);
 		
 		System.out.printf("%d - %s\n", cozinha01.getId(), cozinha01.getNome());
 		System.out.printf("%d - %s\n", cozinha02.getId(), cozinha02.getNome());

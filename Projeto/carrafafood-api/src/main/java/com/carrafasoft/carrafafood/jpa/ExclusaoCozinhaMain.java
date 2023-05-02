@@ -24,7 +24,7 @@ public class ExclusaoCozinhaMain {
 		cozinha01.setId(3L);
 		cozinha01.setNome("Marroquina");
 		
-		cozinha01 = cadastroCozinha.salvar(cozinha01);
+		cozinha01 = cadastroCozinha.save(cozinha01);
 		
 		System.out.printf("%d - %s\n", cozinha01.getId(), cozinha01.getNome());
 	}

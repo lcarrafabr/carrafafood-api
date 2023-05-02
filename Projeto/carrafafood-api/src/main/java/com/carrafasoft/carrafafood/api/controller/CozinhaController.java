@@ -1,6 +1,7 @@
 package com.carrafasoft.carrafafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,25 +40,25 @@ public class CozinhaController {
 	@GetMapping()
 	public List<Cozinha> listar() {
 
-		return cozinhaRepository.listar();
+		return cozinhaRepository.findAll();
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public CozinhasXmlWrapper listarXml() {
 
-		return new CozinhasXmlWrapper(cozinhaRepository.listar());
+		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
 	}
 
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
 
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
 
-		if (cozinha == null) {
+		if (!cozinha.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(cozinha);
+		return ResponseEntity.ok(cozinha.get());
 	}
 
 	@PostMapping
@@ -70,13 +71,14 @@ public class CozinhaController {
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
 
-		Cozinha cozinhaSalva = cozinhaRepository.buscar(cozinhaId);
+		Optional<Cozinha> cozinhaSalva = cozinhaRepository.findById(cozinhaId);
 
-		if (cozinhaSalva != null) {
+		if (cozinhaSalva.isPresent()) {
 			// cozinhaSalva.setNome(cozinha.getNome());
-			BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
-			cozinhaService.salvar(cozinhaSalva);
-			return ResponseEntity.ok(cozinhaSalva);
+			BeanUtils.copyProperties(cozinha, cozinhaSalva.get(), "id");
+			
+			Cozinha cozinhaSalvaNova =  cozinhaService.salvar(cozinhaSalva.get());
+			return ResponseEntity.ok(cozinhaSalvaNova);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -95,6 +97,12 @@ public class CozinhaController {
 			return ResponseEntity.notFound().build();
 		} 
 
+	}
+	
+	@GetMapping("/listar-por-nome")
+	public List<Cozinha> buscaPorNome(String nome) {
+		
+		return cozinhaRepository.findByNomeContaining(nome);
 	}
 
 }
