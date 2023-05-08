@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
+import com.carrafasoft.carrafafood.infrastructure.repository.spec.RestauranteSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -122,6 +122,19 @@ public class RestauranteController {
 	public List<Restaurante> restaurantePorNomeFrete(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 		
 		return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+	}
+	
+	@GetMapping("/com-frete-gratis")
+	public List<Restaurante> restaurantesComFreteGratis(String nome) {
+		
+		
+		return restauranteRepository.findComFreteGratis(nome);
+	}
+	
+	@GetMapping("/primeiro")
+	public Optional<Restaurante> restaurantePrimeiro() {
+		
+		return restauranteRepository.buscarPrimeiro();
 	}
 
 }
