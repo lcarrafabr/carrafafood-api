@@ -1,16 +1,17 @@
 package com.carrafasoft.carrafafood.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Restaurante {
@@ -22,12 +23,37 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String nome;
 
-	//@Column(name = "taxa_frete", nullable = false)
+	// @Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
-	@ManyToOne
+	@CreationTimestamp
+	@Column(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;
+
+	@UpdateTimestamp
+	@Column(name = "data_atualizacao", nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataAtualizacao;
+
+	//@JsonIgnore
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
+
+	//@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "restaurante_forma_pagamento", 
+	joinColumns = @JoinColumn(name = "restaurante_id"), 
+	inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "restaurante")
+	private List<Produto> produtos = new ArrayList<>();
+
+	@JsonIgnore
+	@Embedded
+	private Endereco endereco;
 
 	public Long getId() {
 		return id;
@@ -59,6 +85,46 @@ public class Restaurante {
 
 	public void setCozinha(Cozinha cozinha) {
 		this.cozinha = cozinha;
+	}
+
+	public List<FormaPagamento> getFormasPagamento() {
+		return formasPagamento;
+	}
+
+	public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+		this.formasPagamento = formasPagamento;
+	}
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public LocalDateTime getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	@Override

@@ -15,6 +15,9 @@ import com.carrafasoft.carrafafood.domain.model.Restaurante;
 @Repository
 public interface RestauranteRepository 
 	extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
+
+	@Query("from Restaurante r join  r.cozinha left join fetch r.formasPagamento")
+	List<Restaurante> findAll();
 	
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 	
