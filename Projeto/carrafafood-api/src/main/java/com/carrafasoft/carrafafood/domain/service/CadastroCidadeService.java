@@ -36,6 +36,12 @@ public class CadastroCidadeService {
             throw new EntidadeEmUsoException(
                 String.format(CIDADE_EM_USO, cidadeId));
         }
-    } 
+    }
+
+    public Cidade buscarOuFalhar(Long cidadeId) {
+        return cidadeRepository.findById(cidadeId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(NAO_EXISTE_CADASTRO_COM_ID, cidadeId)));
+    }
 
 }

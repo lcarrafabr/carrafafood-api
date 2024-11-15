@@ -37,4 +37,10 @@ public class CadastroEstadoService {
         }
     }
 
+    public Estado buscarOuFalhar(Long estadoId) {
+        return estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(NAO_EXISTE_CADASTRO_COM_ID, estadoId)));
+    }
+
 }
