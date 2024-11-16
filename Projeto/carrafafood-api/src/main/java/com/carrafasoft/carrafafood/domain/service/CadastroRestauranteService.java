@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.domain.service;
 
 import java.util.Optional;
 
+import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,27 +20,25 @@ public class CadastroRestauranteService {
 	
 	@Autowired 
 	private CozinhaRepository cozinhaRepository;
+
+	@Autowired
+	private CadastroCozinhaService cadastroCozinha;
 	
 	public static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
-	
+
 	public Restaurante salvar(Restaurante restaurante) {
-		
 		Long cozinhaId = restaurante.getCozinha().getId();
-		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
-		
-		if(cozinha == null) {
-			throw new EntidadeNaoEncontradaException(String.format(NAO_EXISTE_CADASTRO_COM_ID, cozinhaId));
-		}
-		
-		restaurante.setCozinha(cozinha.get());
-		
+
+		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+
+		restaurante.setCozinha(cozinha);
+
 		return restauranteRepository.save(restaurante);
 	}
 
 	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException(
-						String.format(NAO_EXISTE_CADASTRO_COM_ID, restauranteId)));
+				.orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
 	}
 
 }

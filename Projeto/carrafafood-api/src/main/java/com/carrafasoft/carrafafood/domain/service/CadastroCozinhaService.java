@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.domain.service;
 
+import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,7 +33,7 @@ public class CadastroCozinhaService {
 			cozinhaRepository.deleteById(cozinhaId);
 		} catch (EmptyResultDataAccessException e) {
 			//throw new EntidadeNaoEncontradaException(String.format(NAO_EXISTE_CADASTRO_COM_ID, cozinhaId));
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(NAO_EXISTE_CADASTRO_COM_ID, cozinhaId));
+			throw new CozinhaNaoEncontradaException(cozinhaId);
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(COZINHA_EM_USO, cozinhaId));
@@ -41,7 +42,7 @@ public class CadastroCozinhaService {
 
 	public Cozinha buscarOuFalhar(Long cozinhaId) {
 
-		return cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(NAO_EXISTE_CADASTRO_COM_ID, cozinhaId)));
+		return cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
 	}
 
 }

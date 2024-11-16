@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.domain.service;
 
+import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,8 +29,7 @@ public class CadastroEstadoService {
             estadoRepository.deleteById(estadoId);
             
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                String.format(NAO_EXISTE_CADASTRO_COM_ID, estadoId));
+            throw new EstadoNaoEncontradaException(estadoId);
         
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -39,8 +39,7 @@ public class CadastroEstadoService {
 
     public Estado buscarOuFalhar(Long estadoId) {
         return estadoRepository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(NAO_EXISTE_CADASTRO_COM_ID, estadoId)));
+                .orElseThrow(() -> new EstadoNaoEncontradaException(estadoId));
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,15 +50,13 @@ public class RestauranteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
-		
+	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+
 		try {
-			restaurante = restauranteService.salvar(restaurante);
-			
-			return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
+			return restauranteService.salvar(restaurante);
 		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}	
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{restauranteId}")
@@ -68,7 +67,11 @@ public class RestauranteController {
 		BeanUtils.copyProperties(restaurante, restauranteAtual,
 				"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
-		return restauranteService.salvar(restauranteAtual);
+		try {
+			return restauranteService.salvar(restauranteAtual);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 //
 //	@PatchMapping("{restauranteId}")
