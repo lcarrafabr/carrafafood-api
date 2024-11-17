@@ -1,24 +1,16 @@
 package com.carrafasoft.carrafafood.api.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import com.carrafasoft.carrafafood.api.exceptionhandler.Problema;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
+import com.carrafasoft.carrafafood.domain.model.Cidade;
+import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
+import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
-import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
-import com.carrafasoft.carrafafood.domain.model.Cidade;
-import com.carrafasoft.carrafafood.domain.model.Estado;
-import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
-import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cidades")
