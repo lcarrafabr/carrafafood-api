@@ -95,7 +95,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
         String detail = ex.getMessage();
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail).build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -185,7 +186,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String detail = String.format(PROPRIEDADE_COM_VALOR_INVALIDO_ERRO, path, ex.getValue(), ex.getTargetType().getSimpleName());
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(ERRO_INTERNO_500)
+                .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -193,14 +196,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        // Criei o método joinPath para reaproveitar em todos os métodos que precisam
-        // concatenar os nomes das propriedades (separando por ".")
         String path = joinPath(ex.getPath());
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = String.format(PROPRIEDADE_INEXISTENTE, path);
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(ERRO_INTERNO_500)
+                .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
