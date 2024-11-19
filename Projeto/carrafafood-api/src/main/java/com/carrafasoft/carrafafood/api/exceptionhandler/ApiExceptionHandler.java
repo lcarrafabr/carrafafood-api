@@ -50,7 +50,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = CORPO_DA_REQUISICAO_INVALIDO;
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -71,7 +73,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
         String detail = ex.getMessage();
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -83,7 +87,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.ERRO_NEGOCIO;
         String detail = ex.getMessage();
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -126,14 +132,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if(body == null) {
             body = Problem.builder()
                     .status(status.value())
-                    .dataHora(LocalDateTime.now())
+                    .timestamp(LocalDateTime.now())
                     .title(status.getReasonPhrase())
+                    .userMessage(ERRO_INTERNO_500)
                     .build();
         } else if(body instanceof String) {
             body = Problem.builder()
                     .status(status.value())
-                    .dataHora(LocalDateTime.now())
+                    .timestamp(LocalDateTime.now())
                     .title((String) body)
+                    .userMessage(ERRO_INTERNO_500)
                     .build();
         }
         return super.handleExceptionInternal(ex, body, headers, status, request);
@@ -146,7 +154,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
         String detail = String.format(RECURSO_NAO_ENCONTRADO, ex.getRequestURL());
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -163,7 +173,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         // para você durante, especialmente na fase de desenvolvimento
         ex.printStackTrace();
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -175,7 +187,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .type(problemType.getUri())
                 .title(problemType.getTitle())
                 .detail(detail)
-                .dataHora(LocalDateTime.now());
+                .timestamp(LocalDateTime.now());
     }
 
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -223,7 +235,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String detail = String.format(PARAMETRO_INVALIDO, ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-        Problem problem = createProblemBuilder(status, problemType, detail).build();
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail).build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
