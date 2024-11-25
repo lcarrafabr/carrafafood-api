@@ -33,6 +33,7 @@ import com.carrafasoft.carrafafood.infrastructure.repository.spec.RestauranteSpe
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -56,7 +57,7 @@ public class RestauranteController {
 	}
 	
 	@PostMapping
-	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@Valid @RequestBody Restaurante restaurante) {
 
 		try {
 			return restauranteService.salvar(restaurante);
