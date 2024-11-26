@@ -30,7 +30,7 @@ public class Restaurante {
 	private Long id;
 
 	//@NotNull
-	@NotBlank
+	@NotBlank//(message = "Nome do restaurante é obrigatório.")
 	@Column(nullable = false)
 	private String nome;
 

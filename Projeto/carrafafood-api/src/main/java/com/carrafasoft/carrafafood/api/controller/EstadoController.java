@@ -23,6 +23,8 @@ import com.carrafasoft.carrafafood.domain.model.Estado;
 import com.carrafasoft.carrafafood.domain.repository.EstadoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroEstadoService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/estados")
 public class EstadoController {
@@ -46,12 +48,13 @@ public class EstadoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado adicionar(@RequestBody Estado estado) {
+	public Estado adicionar(@Valid @RequestBody Estado estado) {
+
 		return estadoService.salvar(estado);
 	}
 	
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@PathVariable Long estadoId,
+	public Estado atualizar(@Valid @PathVariable Long estadoId,
 							@RequestBody Estado estado) {
 		Estado estadoAtual = estadoService.buscarOuFalhar(estadoId);
 

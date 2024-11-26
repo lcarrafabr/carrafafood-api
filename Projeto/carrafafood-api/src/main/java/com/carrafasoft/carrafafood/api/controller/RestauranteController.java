@@ -68,7 +68,7 @@ public class RestauranteController {
 
 	@PutMapping("/{restauranteId}")
 	public Restaurante atualizar(@PathVariable Long restauranteId,
-								 @RequestBody Restaurante restaurante) {
+								 @Valid @RequestBody Restaurante restaurante) {
 		Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
 		BeanUtils.copyProperties(restaurante, restauranteAtual,
