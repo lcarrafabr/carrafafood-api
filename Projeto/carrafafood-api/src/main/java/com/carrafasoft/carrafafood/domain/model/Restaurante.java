@@ -1,6 +1,7 @@
 package com.carrafasoft.carrafafood.domain.model;
 
-import com.carrafasoft.carrafafood.Groups;
+import com.carrafasoft.carrafafood.core.validation.Groups;
+import com.carrafasoft.carrafafood.core.validation.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +36,9 @@ public class Restaurante {
 	private String nome;
 
 	//@DecimalMin("0")
-	@PositiveOrZero
+	@NotNull
+	//@PositiveOrZero//(message = "{TaxaFrete.invalida}")
+	@TaxaFrete
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 

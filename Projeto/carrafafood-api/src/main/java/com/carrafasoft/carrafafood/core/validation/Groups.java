@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood;
+package com.carrafasoft.carrafafood.core.validation;
 
 public interface Groups {
 

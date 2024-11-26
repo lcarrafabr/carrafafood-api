@@ -1,6 +1,6 @@
 package com.carrafasoft.carrafafood.domain.model;
 
-import com.carrafasoft.carrafafood.Groups;
+import com.carrafasoft.carrafafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
