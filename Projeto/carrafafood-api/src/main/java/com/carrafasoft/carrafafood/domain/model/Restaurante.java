@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
+import com.carrafasoft.carrafafood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,11 +23,15 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	//@NotNull
+	@NotEmpty
+	@NotBlank(groups = Groups.CadastroRestaurante.class)
 	@Column(nullable = false)
 	private String nome;
 
-	// @Column(name = "taxa_frete", nullable = false)
+	//@DecimalMin("0")
+	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
+	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
 	@CreationTimestamp
@@ -37,7 +43,9 @@ public class Restaurante {
 	private LocalDateTime dataAtualizacao;
 
 	//@JsonIgnore
-	@JsonIgnoreProperties("hibernateLazyInitializer")
+	//@JsonIgnoreProperties("hibernateLazyInitializer")
+	@Valid
+	@NotNull(groups = Groups.CadastroRestaurante.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;

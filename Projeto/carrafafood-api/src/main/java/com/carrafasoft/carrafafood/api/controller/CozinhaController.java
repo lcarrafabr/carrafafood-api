@@ -28,6 +28,8 @@ import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCozinhaService;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 //@RequestMapping(value = "/cozinhas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @RequestMapping(value = "/cozinhas")
@@ -59,7 +61,7 @@ public class CozinhaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+	public Cozinha adicionar(@Valid @RequestBody Cozinha cozinha) {
 
 		return cozinhaService.salvar(cozinha);
 	}

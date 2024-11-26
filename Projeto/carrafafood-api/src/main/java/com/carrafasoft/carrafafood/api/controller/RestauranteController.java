@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.carrafasoft.carrafafood.Groups;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +59,7 @@ public class RestauranteController {
 	}
 	
 	@PostMapping
-	public Restaurante adicionar(@Valid @RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@Validated(Groups.CadastroRestaurante.class) @RequestBody Restaurante restaurante) {
 
 		try {
 			return restauranteService.salvar(restaurante);
