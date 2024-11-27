@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.domain.model;
 import com.carrafasoft.carrafafood.core.validation.Groups;
 import com.carrafasoft.carrafafood.core.validation.Multiplo;
 import com.carrafasoft.carrafafood.core.validation.TaxaFrete;
+import com.carrafasoft.carrafafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -38,9 +40,9 @@ public class Restaurante {
 
 	//@DecimalMin("0")
 	@NotNull
-	//@PositiveOrZero//(message = "{TaxaFrete.invalida}")
+	@PositiveOrZero//(message = "{TaxaFrete.invalida}")
 	//@TaxaFrete
-	@Multiplo(numero = 5)
+	//@Multiplo(numero = 5)
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
