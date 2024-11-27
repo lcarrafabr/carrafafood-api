@@ -10,6 +10,7 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Estado;
 import com.carrafasoft.carrafafood.domain.repository.EstadoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroEstadoService {
@@ -19,11 +20,13 @@ public class CadastroEstadoService {
 	
 	public static final String ESTADO_EM_USO = "Estado de código %d não pode ser removida, pois está em uso.";
 	public static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
-	
+
+    @Transactional
 	public Estado salvar(Estado estado) {
         return estadoRepository.save(estado);
     }
-    
+
+    @Transactional
     public void excluir(Long estadoId) {
         try {
             estadoRepository.deleteById(estadoId);

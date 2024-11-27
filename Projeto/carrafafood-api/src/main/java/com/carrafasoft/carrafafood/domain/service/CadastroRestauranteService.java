@@ -11,6 +11,7 @@ import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroRestauranteService {
@@ -26,6 +27,7 @@ public class CadastroRestauranteService {
 	
 	public static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
 
+	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
 

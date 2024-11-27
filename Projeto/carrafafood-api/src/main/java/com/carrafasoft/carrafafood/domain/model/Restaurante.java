@@ -1,10 +1,7 @@
 package com.carrafasoft.carrafafood.domain.model;
 
 import com.carrafasoft.carrafafood.core.validation.Groups;
-import com.carrafasoft.carrafafood.core.validation.Multiplo;
-import com.carrafasoft.carrafafood.core.validation.TaxaFrete;
 import com.carrafasoft.carrafafood.core.validation.ValorZeroIncluiDescricao;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -56,25 +53,26 @@ public class Restaurante {
 
 	//@JsonIgnore
 	//@JsonIgnoreProperties("hibernateLazyInitializer")
+	//@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 
 	//@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "restaurante_forma_pagamento", 
-	joinColumns = @JoinColumn(name = "restaurante_id"), 
+	@JoinTable(name = "restaurante_forma_pagamento",
+	joinColumns = @JoinColumn(name = "restaurante_id"),
 	inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
 
-	@JsonIgnore
+	//@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 

@@ -11,6 +11,7 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -22,11 +23,13 @@ public class CadastroCozinhaService {
 	private static final String COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso.";
 	private static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
 
+	@Transactional
 	public Cozinha salvar(Cozinha cozinha) {
 
 		return cozinhaRepository.save(cozinha);
 	}
 
+	@Transactional
 	public void excluir(Long cozinhaId) {
 
 		try {
