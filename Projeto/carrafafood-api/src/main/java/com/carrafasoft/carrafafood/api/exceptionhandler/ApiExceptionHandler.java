@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -180,14 +181,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if(body == null) {
             body = Problem.builder()
                     .status(status.value())
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .title(status.getReasonPhrase())
                     .userMessage(ERRO_INTERNO_500)
                     .build();
         } else if(body instanceof String) {
             body = Problem.builder()
                     .status(status.value())
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .title((String) body)
                     .userMessage(ERRO_INTERNO_500)
                     .build();
@@ -241,7 +242,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .type(problemType.getUri())
                 .title(problemType.getTitle())
                 .detail(detail)
-                .timestamp(LocalDateTime.now());
+                .timestamp(OffsetDateTime.now());
     }
 
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
