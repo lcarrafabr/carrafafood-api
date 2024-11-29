@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JacksonMixinModule extends SimpleModule {
 
-    public JacksonMixinModule() {
+    public JacksonMixinModule() { //Não é mais usado depois do ModelMapper
 
-        setMixInAnnotation(Cidade.class, CidadeMixin.class);
-        setMixInAnnotation(Cozinha.class, CozinhaMixin.class);
+//        setMixInAnnotation(Cidade.class, CidadeMixin.class);
+//        setMixInAnnotation(Cozinha.class, CozinhaMixin.class);
     }
 }

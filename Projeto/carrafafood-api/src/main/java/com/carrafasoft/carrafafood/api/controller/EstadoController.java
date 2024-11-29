@@ -3,6 +3,10 @@ package com.carrafasoft.carrafafood.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.carrafasoft.carrafafood.api.assembler.EstadoInputDisassembler;
+import com.carrafasoft.carrafafood.api.assembler.EstadoModelAssembler;
+import com.carrafasoft.carrafafood.api.model.dto.EstadoModel;
+import com.carrafasoft.carrafafood.api.model.input.EstadoInput;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,33 +38,49 @@ public class EstadoController {
 	
 	@Autowired
 	private CadastroEstadoService estadoService;
-	
+
+	@Autowired
+	private EstadoModelAssembler estadoModelAssembler;
+
+	@Autowired
+	private EstadoInputDisassembler estadoInputDisassembler;
+
+
+
 	@GetMapping
-	public List<Estado> listar() {
-		
-		return estadoRepository.findAll();
+	public List<EstadoModel> listar() {
+		List<Estado> todosEstados = estadoRepository.findAll();
+
+		return estadoModelAssembler.toCollectionModel(todosEstados);
 	}
 
 	@GetMapping("/{estadoId}")
-	public Estado buscar(@PathVariable Long estadoId) {
-		return estadoService.buscarOuFalhar(estadoId);
+	public EstadoModel buscar(@PathVariable Long estadoId) {
+		Estado estado = estadoService.buscarOuFalhar(estadoId);
+
+		return estadoModelAssembler.toModel(estado);
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado adicionar(@Valid @RequestBody Estado estado) {
+	public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
+		Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
 
-		return estadoService.salvar(estado);
+		estado = estadoService.salvar(estado);
+
+		return estadoModelAssembler.toModel(estado);
 	}
-	
+
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@Valid @PathVariable Long estadoId,
-							@RequestBody Estado estado) {
+	public EstadoModel atualizar(@PathVariable Long estadoId,
+								 @RequestBody @Valid EstadoInput estadoInput) {
 		Estado estadoAtual = estadoService.buscarOuFalhar(estadoId);
 
-		BeanUtils.copyProperties(estado, estadoAtual, "id");
+		estadoInputDisassembler.copyToDomainObject(estadoInput, estadoAtual);
 
-		return estadoService.salvar(estadoAtual);
+		estadoAtual = estadoService.salvar(estadoAtual);
+
+		return estadoModelAssembler.toModel(estadoAtual);
 	}
 
 	@DeleteMapping("/{estadoId}")
