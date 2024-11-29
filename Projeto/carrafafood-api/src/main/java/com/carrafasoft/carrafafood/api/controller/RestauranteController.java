@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.carrafasoft.carrafafood.api.assembler.RestauranteInputDisassembler;
+import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
@@ -55,11 +57,17 @@ public class RestauranteController {
 
 	@Autowired
 	private SmartValidator validator;
-	
+
+	@Autowired
+	private RestauranteModelAssembler restauranteModelAssembler;
+
+	@Autowired
+	private RestauranteInputDisassembler restauranteInputDisassembler;
+
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		
-		return toCollectionModel(restauranteRepository.findAll());
+		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
 
 	@GetMapping("/{restauranteId}")
@@ -67,14 +75,16 @@ public class RestauranteController {
 
 		Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
-		return toModel(restaurante);
+		return restauranteModelAssembler.toModel(restaurante);
 	}
 
 	@PostMapping
 	public RestauranteModel adicionar(@Valid @RequestBody RestauranteInput restauranteInput) {
 
 		try {
-			return toModel(restauranteService.salvar(toDomainObject(restauranteInput)));
+			return restauranteModelAssembler.toModel(restauranteService.salvar(
+					restauranteInputDisassembler.toDomainObject(restauranteInput))
+			);
 		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -85,11 +95,11 @@ public class RestauranteController {
 								 @Valid @RequestBody RestauranteInput restauranteInput) {
 		Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
-		BeanUtils.copyProperties(toDomainObject(restauranteInput), restauranteAtual,
+		BeanUtils.copyProperties(restauranteInputDisassembler.toDomainObject(restauranteInput), restauranteAtual,
 				"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
 		try {
-			return toModel(restauranteService.salvar(restauranteAtual));
+			return restauranteModelAssembler.toModel(restauranteService.salvar(restauranteAtual));
 		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -161,44 +171,6 @@ public class RestauranteController {
 	public Optional<Restaurante> restaurantePrimeiro() {
 		
 		return restauranteRepository.buscarPrimeiro();
-	}
-
-	private RestauranteModel toModel(Restaurante restaurante) {
-
-		RestauranteModel restauranteModel = new RestauranteModel();
-		CozinhaModel cozinhaModel = new CozinhaModel();
-
-		cozinhaModel.setId(restaurante.getCozinha().getId());
-		cozinhaModel.setNome(restaurante.getCozinha().getNome());
-
-		restauranteModel.setId(restaurante.getId());
-		restauranteModel.setNome(restaurante.getNome());
-		restauranteModel.setTaxaFrete(restaurante.getTaxaFrete());
-		restauranteModel.setCozinha(cozinhaModel);
-
-		return restauranteModel;
-	}
-
-	private List<RestauranteModel> toCollectionModel(List<Restaurante> restaurantes) {
-
-		return restaurantes.stream()
-				.map(restaurante -> toModel(restaurante))
-				.collect(Collectors.toList());
-	}
-
-	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-
-		Restaurante restaurante = new Restaurante();
-
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-
-		Cozinha cozinha = new Cozinha();
-
-		cozinha.setId(restauranteInput.getCozinha().getId());
-		restaurante.setCozinha(cozinha);
-
-		return restaurante;
 	}
 
 }
