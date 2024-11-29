@@ -3,23 +3,27 @@ package com.carrafasoft.carrafafood.api.assembler;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RestauranteInputDisassembler {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public Restaurante toDomainObject(RestauranteInput restauranteInput) {
 
-        Restaurante restaurante = new Restaurante();
+        return modelMapper.map(restauranteInput, Restaurante.class);
+    }
 
-        restaurante.setNome(restauranteInput.getNome());
-        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
+    public void copyToDomainObject(RestauranteInput restauranteInput, Restaurante restaurante) {
 
-        Cozinha cozinha = new Cozinha();
+        // Para evitar org.hibernate.HibernateException: identifier of an instance of
+        // com.algaworks.algafood.domain.model.Cozinha was altered from 1 to 2
+        restaurante.setCozinha(new Cozinha());
 
-        cozinha.setId(restauranteInput.getCozinha().getId());
-        restaurante.setCozinha(cozinha);
-
-        return restaurante;
+        modelMapper.map(restauranteInput, restaurante);
     }
 }

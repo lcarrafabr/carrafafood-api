@@ -95,8 +95,7 @@ public class RestauranteController {
 								 @Valid @RequestBody RestauranteInput restauranteInput) {
 		Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
-		BeanUtils.copyProperties(restauranteInputDisassembler.toDomainObject(restauranteInput), restauranteAtual,
-				"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+		restauranteInputDisassembler.copyToDomainObject(restauranteInput,restauranteAtual);
 
 		try {
 			return restauranteModelAssembler.toModel(restauranteService.salvar(restauranteAtual));
