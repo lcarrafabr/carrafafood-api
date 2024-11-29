@@ -4,6 +4,8 @@ import com.carrafasoft.carrafafood.api.assembler.CidadeInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CidadeModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
 import com.carrafasoft.carrafafood.api.model.input.CidadeInput;
+import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
+import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
@@ -11,6 +13,8 @@ import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
+
+	public static final String CIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
@@ -83,7 +89,14 @@ public class CidadeController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {
 
-		cidadeService.excluir(cidadeId);
+		try {
+			cidadeService.excluir(cidadeId);
+			cidadeRepository.flush();
+		} catch (EmptyResultDataAccessException e) {
+			throw new CidadeNaoEncontradaException(cidadeId);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format(CIDADE_EM_USO, cidadeId));
+		}
 	}
 
 }

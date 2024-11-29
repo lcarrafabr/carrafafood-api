@@ -7,6 +7,7 @@ import com.carrafasoft.carrafafood.api.assembler.CozinhaInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CozinhaModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.input.CozinhaInput;
+import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,6 +39,8 @@ import javax.validation.Valid;
 //@RequestMapping(value = "/cozinhas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @RequestMapping(value = "/cozinhas")
 public class CozinhaController {
+
+	private static final String COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso.";
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
@@ -111,7 +114,14 @@ public class CozinhaController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {
 
-		cozinhaService.excluir(cozinhaId);
+		try {
+			cozinhaService.excluir(cozinhaId);
+			cozinhaRepository.flush();
+		} catch (EmptyResultDataAccessException e) {
+			throw new CozinhaNaoEncontradaException(cozinhaId);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format(COZINHA_EM_USO, cozinhaId));
+		}
 	}
 	
 	@GetMapping("/listar-por-nome")
