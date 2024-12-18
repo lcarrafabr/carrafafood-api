@@ -73,11 +73,19 @@ public class Restaurante {
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
 
+	private Boolean ativo = Boolean.TRUE;
+
 	//@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 
+	public void ativar() {
+		setAtivo(true);
+	}
 
+	public void inativar() {
+		setAtivo(false);
+	}
 
 	@PrePersist
 	public void aoCadastrar() {
