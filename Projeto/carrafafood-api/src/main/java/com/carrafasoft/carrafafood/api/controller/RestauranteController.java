@@ -12,6 +12,8 @@ import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
+import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
+import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -78,7 +80,7 @@ public class RestauranteController {
 			return restauranteModelAssembler.toModel(restauranteService.salvar(
 					restauranteInputDisassembler.toDomainObject(restauranteInput))
 			);
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
@@ -92,7 +94,7 @@ public class RestauranteController {
 
 		try {
 			return restauranteModelAssembler.toModel(restauranteService.salvar(restauranteAtual));
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
