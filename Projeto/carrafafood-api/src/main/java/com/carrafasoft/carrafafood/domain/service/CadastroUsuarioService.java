@@ -8,14 +8,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.util.Optional;
+
 @Service
 public class CadastroUsuarioService {
+
+    private static final String EMAIL_CADASTRADO_EXISTENTE = "E-mail: %s já está em uso.";
+    private static final String SENHA_NAO_COINCIDE = "Senha atual informada não coincide com a senha do usuário.";
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    //@Autowired
+    //private EntityManager manager;
+
     @Transactional
     public Usuario salvar(Usuario usuario) {
+
+        //Usado para não sincrionizar antes da pesquisa: Obs foi alterado para o repository
+        //manager.detach(usuario);
+        usuarioRepository.detach(usuario);
+
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+
+            throw new NegocioException(String.format(EMAIL_CADASTRADO_EXISTENTE, usuario.getEmail()));
+        }
+
         return usuarioRepository.save(usuario);
     }
 
@@ -24,7 +45,7 @@ public class CadastroUsuarioService {
         Usuario usuario = buscarOuFalhar(usuarioId);
 
         if (usuario.senhaNaoCoincideCom(senhaAtual)) {
-            throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
+            throw new NegocioException(SENHA_NAO_COINCIDE);
         }
 
         usuario.setSenha(novaSenha);
