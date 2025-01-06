@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.domain.service;
 import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
+import com.carrafasoft.carrafafood.domain.model.FormaPagamento;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
@@ -24,6 +25,9 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private  CadastroCidadeService cadastroCidadeService;
+
+	@Autowired
+	private CadastroFormaPagamentoService cadastroFormaPagamento;
 	
 	public static final String NAO_EXISTE_CADASTRO_COM_ID = "Não existe um cadastro com o código %d";
 
@@ -58,6 +62,28 @@ public class CadastroRestauranteService {
 	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
 				.orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
+	}
+
+	@Transactional
+	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+		restaurante.removerFormaPagamento(formaPagamento);
+
+		/**Não foi colocado o .save() porque quando a transação acabar o JPA irá atualizar todas as modificações*/
+	}
+
+	@Transactional
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+		restaurante.adicionarFormaPagamento(formaPagamento);
+
+		/**Não foi colocado o .save() porque quando a transação acabar o JPA irá atualizar todas as modificações*/
 	}
 
 }
