@@ -1,10 +1,7 @@
 package com.carrafasoft.carrafafood.domain.service;
 
 import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
-import com.carrafasoft.carrafafood.domain.model.Cidade;
-import com.carrafasoft.carrafafood.domain.model.Cozinha;
-import com.carrafasoft.carrafafood.domain.model.FormaPagamento;
-import com.carrafasoft.carrafafood.domain.model.Restaurante;
+import com.carrafasoft.carrafafood.domain.model.*;
 import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,9 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private  CadastroCidadeService cadastroCidadeService;
+
+	@Autowired
+	private CadastroUsuarioService cadastroUsuario;
 
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamento;
@@ -98,6 +98,22 @@ public class CadastroRestauranteService {
 		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
 
 		restauranteAtual.fechar();
+	}
+
+	@Transactional
+	public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+		restaurante.removerResponsavel(usuario);
+	}
+
+	@Transactional
+	public void associarResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+		restaurante.adicionarResponsavel(usuario);
 	}
 
 }
