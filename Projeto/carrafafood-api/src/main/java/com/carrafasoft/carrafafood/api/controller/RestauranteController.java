@@ -5,23 +5,18 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.carrafasoft.carrafafood.api.assembler.RestauranteInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
-import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
-import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
@@ -29,11 +24,9 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
-import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
-import com.carrafasoft.carrafafood.infrastructure.repository.spec.RestauranteSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +41,7 @@ public class RestauranteController {
 	private RestauranteRepository restauranteRepository;
 	
 	@Autowired
-	private CadastroRestauranteService restauranteService;
+	private CadastroRestauranteService cadastroRestaurante;
 
 	@Autowired
 	private SmartValidator validator;
@@ -68,7 +61,7 @@ public class RestauranteController {
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 
-		Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
+		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 		return restauranteModelAssembler.toModel(restaurante);
 	}
@@ -77,7 +70,7 @@ public class RestauranteController {
 	public RestauranteModel adicionar(@Valid @RequestBody RestauranteInput restauranteInput) {
 
 		try {
-			return restauranteModelAssembler.toModel(restauranteService.salvar(
+			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(
 					restauranteInputDisassembler.toDomainObject(restauranteInput))
 			);
 		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
@@ -88,12 +81,12 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 								 @Valid @RequestBody RestauranteInput restauranteInput) {
-		Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
+		Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 		restauranteInputDisassembler.copyToDomainObject(restauranteInput,restauranteAtual);
 
 		try {
-			return restauranteModelAssembler.toModel(restauranteService.salvar(restauranteAtual));
+			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
 		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -171,14 +164,26 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable Long restauranteId) {
 
-		restauranteService.ativar(restauranteId);
+		cadastroRestaurante.ativar(restauranteId);
 	}
 
 	@DeleteMapping("/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable Long restauranteId) {
 
-		restauranteService.inativar(restauranteId);
+		cadastroRestaurante.inativar(restauranteId);
+	}
+
+	@PutMapping("/{restauranteId}/abertura")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void abrir(@PathVariable Long restauranteId) {
+		cadastroRestaurante.abrir(restauranteId);
+	}
+
+	@PutMapping("/{restauranteId}/fechamento")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void fechar(@PathVariable Long restauranteId) {
+		cadastroRestaurante.fechar(restauranteId);
 	}
 
 }

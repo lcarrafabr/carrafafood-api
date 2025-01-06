@@ -86,4 +86,18 @@ public class CadastroRestauranteService {
 		/**Não foi colocado o .save() porque quando a transação acabar o JPA irá atualizar todas as modificações*/
 	}
 
+	@Transactional
+	public void abrir(Long restauranteId) {
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+		restauranteAtual.abrir();
+	}
+
+	@Transactional
+	public void fechar(Long restauranteId) {
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+		restauranteAtual.fechar();
+	}
+
 }
