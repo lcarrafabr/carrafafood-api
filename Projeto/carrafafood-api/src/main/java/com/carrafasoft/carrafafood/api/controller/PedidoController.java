@@ -1,7 +1,9 @@
 package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.PedidoModelAssembler;
+import com.carrafasoft.carrafafood.api.assembler.PedidoResumoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoModel;
+import com.carrafasoft.carrafafood.api.model.dto.PedidoResumoModel;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
 import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
@@ -26,11 +28,14 @@ public class PedidoController {
     @Autowired
     private PedidoModelAssembler pedidoModelAssembler;
 
+    @Autowired
+    private PedidoResumoModelAssembler pedidoResumoModelAssembler;
+
     @GetMapping
-    public List<PedidoModel> listar() {
+    public List<PedidoResumoModel> listar() {
         List<Pedido> todosPedidos = pedidoRepository.findAll();
 
-        return pedidoModelAssembler.toCollectionModel(todosPedidos);
+        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
     }
 
     @GetMapping("/{pedidoId}")
