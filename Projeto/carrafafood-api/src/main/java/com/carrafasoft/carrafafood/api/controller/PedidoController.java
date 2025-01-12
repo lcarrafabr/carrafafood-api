@@ -12,8 +12,12 @@ import com.carrafasoft.carrafafood.domain.model.Pedido;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
 import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
 import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +41,27 @@ public class PedidoController {
 
     @Autowired
     private PedidoInputDisassembler pedidoInputDisassembler;
+
+
+
+//    @GetMapping
+//    public MappingJacksonValue listar(@RequestParam(required = false, name = "campos") String campos) {
+//        List<Pedido> todosPedidos = pedidoRepository.findAll();
+//        List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
+//
+//        MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
+//
+//        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+//        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
+//
+//        if(StringUtils.isNoneBlank(campos)) {
+//            filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+//        }
+//
+//        pedidosWrapper.setFilters(filterProvider);
+//
+//        return pedidosWrapper;
+//    }
 
     @GetMapping
     public List<PedidoResumoModel> listar() {

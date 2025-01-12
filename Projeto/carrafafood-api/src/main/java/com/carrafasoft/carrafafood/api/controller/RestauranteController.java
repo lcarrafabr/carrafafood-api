@@ -10,15 +10,18 @@ import com.carrafasoft.carrafafood.api.assembler.RestauranteInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
+import com.carrafasoft.carrafafood.api.model.view.RestauranteView;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -53,11 +56,65 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteInputDisassembler restauranteInputDisassembler;
 
-	@GetMapping
+
+
+		@GetMapping
 	public List<RestauranteModel> listar() {
-		
+
 		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
+
+	@JsonView(RestauranteView.Resumo.class)
+	@GetMapping(params = "projecao=resumo")
+	public List<RestauranteModel> listarResumido() {
+
+		return listar();
+	}
+
+
+//	@GetMapping
+//	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+//
+//		List<Restaurante> restaurantes = restauranteRepository.findAll();
+//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
+//
+//		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restaurantesModel);
+//
+//		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
+//
+//		if("apenas-nome".equals(projecao)) {
+//			restaurantesWrapper.setSerializationView(RestauranteView.ApenasNome.class);
+//		} else if("completo".equals(projecao)) {
+//			restaurantesWrapper.setSerializationView(null);
+//		}
+//
+//
+//		return restaurantesWrapper;
+//	}
+
+
+
+	/**Esse codigo comenmtado é para quando quiser fazer projeção de rescursos, o exemplo não comentado é quando quer fazer dinamico*/
+
+//	@GetMapping
+//	public List<RestauranteModel> listar() {
+//
+//		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+//	}
+//
+//	@JsonView(RestauranteView.Resumo.class)
+//	@GetMapping(params = "projecao=resumo")
+//	public List<RestauranteModel> listarResumido() {
+//
+//		return listar();
+//	}
+//
+//	@JsonView(RestauranteView.ApenasNome.class)
+//	@GetMapping(params = "projecao=apenas-nome")
+//	public List<RestauranteModel> listarApenasNomes() {
+//
+//		return listar();
+//	}
 
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
