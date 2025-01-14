@@ -11,7 +11,9 @@ import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
 import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
+import com.carrafasoft.carrafafood.domain.repository.filter.PedidoFilter;
 import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
+import com.carrafasoft.carrafafood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.commons.lang3.StringUtils;
@@ -64,8 +66,8 @@ public class PedidoController {
 //    }
 
     @GetMapping
-    public List<PedidoResumoModel> listar() {
-        List<Pedido> todosPedidos = pedidoRepository.findAll();
+    public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
+        List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
 
         return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
     }
