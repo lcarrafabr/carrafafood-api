@@ -12,6 +12,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -57,10 +61,14 @@ public class CozinhaController {
 
 
 	@GetMapping
-	public List<CozinhaModel> listar() {
-		List<Cozinha> todasCozinhas = cozinhaRepository.findAll();
+	public Page<CozinhaModel> listar(@PageableDefault(size = 10) Pageable pageable) {
+		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
-		return cozinhaModelAssembler.toCollectionModel(todasCozinhas);
+		List<CozinhaModel> cozinhaModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+
+		Page<CozinhaModel> cozinhaModelPage = new PageImpl<>(cozinhaModel, pageable, cozinhasPage.getTotalPages());
+
+		return cozinhaModelPage;
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
