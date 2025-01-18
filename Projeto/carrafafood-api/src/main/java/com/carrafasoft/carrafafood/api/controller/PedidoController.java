@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.assembler.PedidoResumoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoModel;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoResumoModel;
 import com.carrafasoft.carrafafood.api.model.input.PedidoInput;
+import com.carrafasoft.carrafafood.core.data.PageableTranslator;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
@@ -16,6 +17,7 @@ import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
 import com.carrafasoft.carrafafood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -72,6 +74,9 @@ public class PedidoController {
     @GetMapping
     public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,
                                              @PageableDefault(size = 10) Pageable pageable) {
+
+        pageable = traduzirPageble(pageable);
+
         Page<Pedido> pedidosPage = pedidoRepository.findAll(
                 PedidoSpecs.usandoFiltro(filtro), pageable);
 
@@ -107,5 +112,18 @@ public class PedidoController {
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
+    }
+
+
+    private Pageable traduzirPageble(Pageable apiPageable) {
+
+        var mapeamento = ImmutableMap.of(
+                "codigo", "codigo",
+                "restaurante.nome", "restaurante.nome",
+                "nomeCliente", "cliente.nome",
+                "valorTotal", "valorTotal"
+        );
+
+        return PageableTranslator.tranlate(apiPageable, mapeamento);
     }
 }
