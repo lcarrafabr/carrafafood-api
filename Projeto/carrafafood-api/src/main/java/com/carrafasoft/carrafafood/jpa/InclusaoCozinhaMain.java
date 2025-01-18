@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.carrafasoft.carrafafood.CarrafafoodApiApplication;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
-import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.CozinhaRepository;
 
 public class InclusaoCozinhaMain {
 	

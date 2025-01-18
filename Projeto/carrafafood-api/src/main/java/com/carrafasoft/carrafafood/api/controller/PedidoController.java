@@ -11,21 +11,17 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaExcepti
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
-import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
-import com.carrafasoft.carrafafood.domain.repository.filter.PedidoFilter;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.PedidoRepository;
+import com.carrafasoft.carrafafood.domain.filter.PedidoFilter;
 import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
 import com.carrafasoft.carrafafood.infrastructure.repository.spec.PedidoSpecs;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

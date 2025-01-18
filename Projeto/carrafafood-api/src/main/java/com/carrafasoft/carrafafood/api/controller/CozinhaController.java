@@ -1,14 +1,12 @@
 package com.carrafasoft.carrafafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.carrafasoft.carrafafood.api.assembler.CozinhaInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CozinhaModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.input.CozinhaInput;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carrafasoft.carrafafood.api.model.CozinhasXmlWrapper;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
-import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
-import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCozinhaService;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 

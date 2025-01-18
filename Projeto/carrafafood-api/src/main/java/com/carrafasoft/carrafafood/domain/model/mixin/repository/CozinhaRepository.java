@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.domain.repository;
+package com.carrafasoft.carrafafood.domain.model.mixin.repository;
 
 import java.util.List;
 

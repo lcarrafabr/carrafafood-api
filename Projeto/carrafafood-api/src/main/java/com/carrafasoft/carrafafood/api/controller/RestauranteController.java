@@ -21,7 +21,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -29,7 +28,7 @@ import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
-import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

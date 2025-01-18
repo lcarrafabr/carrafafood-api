@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.domain.repository.filter;
+package com.carrafasoft.carrafafood.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;

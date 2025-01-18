@@ -4,12 +4,11 @@ import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.exception.UsuarioNaoEncontradoException;
 import com.carrafasoft.carrafafood.domain.model.Grupo;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
-import com.carrafasoft.carrafafood.domain.repository.UsuarioRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service

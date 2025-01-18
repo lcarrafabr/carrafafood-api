@@ -2,7 +2,6 @@ package com.carrafasoft.carrafafood.infrastructure.repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,13 +14,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
-import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
-import com.carrafasoft.carrafafood.domain.repository.RestauranteRepositoryQueries;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepositoryQueries;
 import com.carrafasoft.carrafafood.infrastructure.repository.spec.RestauranteSpecs;
 
 @Repository

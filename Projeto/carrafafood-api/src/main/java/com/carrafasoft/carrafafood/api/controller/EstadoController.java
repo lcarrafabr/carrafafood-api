@@ -1,19 +1,16 @@
 package com.carrafasoft.carrafafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.carrafasoft.carrafafood.api.assembler.EstadoInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.EstadoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.EstadoModel;
 import com.carrafasoft.carrafafood.api.model.input.EstadoInput;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
-import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Estado;
-import com.carrafasoft.carrafafood.domain.repository.EstadoRepository;
+import com.carrafasoft.carrafafood.domain.model.mixin.repository.EstadoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroEstadoService;
 
 import javax.validation.Valid;

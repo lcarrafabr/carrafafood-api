@@ -1,7 +1,7 @@
 package com.carrafasoft.carrafafood.infrastructure.repository.spec;
 
 import com.carrafasoft.carrafafood.domain.model.Pedido;
-import com.carrafasoft.carrafafood.domain.repository.filter.PedidoFilter;
+import com.carrafasoft.carrafafood.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
