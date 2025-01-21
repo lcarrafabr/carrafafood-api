@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.infrastructure.service;
+package com.carrafasoft.carrafafood.infrastructure.service.query;
 
 import com.carrafasoft.carrafafood.domain.filter.VendaDiariaFilter;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
