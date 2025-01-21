@@ -1,0 +1,1 @@
+Esse diretório será temporário pois as imagens serão enviadas para a AWS
