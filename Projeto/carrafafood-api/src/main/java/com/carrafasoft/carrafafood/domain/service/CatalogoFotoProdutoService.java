@@ -1,10 +1,13 @@
 package com.carrafasoft.carrafafood.domain.service;
 
 import com.carrafasoft.carrafafood.domain.model.FotoProduto;
+import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class CatalogoFotoProdutoService {
@@ -14,6 +17,15 @@ public class CatalogoFotoProdutoService {
 
     @Transactional
     public FotoProduto salvar(FotoProduto foto) {
+
+        Long restauranteId = foto.getRestauranteId();
+        Long produtoId = foto.getProduto().getId();
+
+        Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(restauranteId, produtoId);
+
+        if(fotoExistente.isPresent()) {
+            produtoRepository.delete(fotoExistente.get());
+        }
 
         return produtoRepository.save(foto);
     }
