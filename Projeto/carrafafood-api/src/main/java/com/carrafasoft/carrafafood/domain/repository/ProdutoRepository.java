@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.domain.model.mixin.repository;
+package com.carrafasoft.carrafafood.domain.repository;
 
 import com.carrafasoft.carrafafood.domain.model.Produto;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoReprositoryQueries {
 
     @Query("from Produto where restaurante.id = :restaurante and id = :produto")
     Optional<Produto> findById(@Param("restaurante") Long restauranteId,

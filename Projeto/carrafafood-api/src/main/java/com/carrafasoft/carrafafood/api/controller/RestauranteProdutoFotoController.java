@@ -1,6 +1,13 @@
 package com.carrafasoft.carrafafood.api.controller;
 
+import com.carrafasoft.carrafafood.api.assembler.FotoProdutoModelAssembler;
+import com.carrafasoft.carrafafood.api.model.dto.FotoProdutoModel;
 import com.carrafasoft.carrafafood.api.model.input.FotoProdutoInput;
+import com.carrafasoft.carrafafood.domain.model.FotoProduto;
+import com.carrafasoft.carrafafood.domain.model.Produto;
+import com.carrafasoft.carrafafood.domain.service.CadastroProdutoService;
+import com.carrafasoft.carrafafood.domain.service.CatalogoFotoProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,26 +21,33 @@ import java.util.UUID;
 public class RestauranteProdutoFotoController {
 
 
+    @Autowired
+    private CadastroProdutoService cadastroProdutoService;
+
+    @Autowired
+    private FotoProdutoModelAssembler fotoProdutoModelAssembler;
+    @Autowired
+    private CatalogoFotoProdutoService catalogoFotoProdutoService;
+
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void atualizarFoto(@PathVariable Long restauranteId,
-                              @PathVariable Long produtoId,
-                              @Valid FotoProdutoInput fotoProdutoInput) {
+    public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
+                                          @PathVariable Long produtoId,
+                                          @Valid FotoProdutoInput fotoProdutoInput) {
 
-        try {
-            var nomeArquivo = UUID.randomUUID().toString()
-                    + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
+        Produto produto = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
-            var arquivoFoto = Path.of("E:/PROJETOS/Algaworks/Especialista_Spring_Rest/catalogo", nomeArquivo);
+        MultipartFile arquivo = fotoProdutoInput.getArquivo();
 
-            System.out.println(fotoProdutoInput.getDescricao());
-            System.out.println(arquivoFoto);
-            System.out.println(fotoProdutoInput.getArquivo().getContentType());
+        FotoProduto foto = new FotoProduto();
+        foto.setProduto(produto);
+        foto.setDescricao(fotoProdutoInput.getDescricao());
+        foto.setContentType(arquivo.getContentType());
+        foto.setTamanho(arquivo.getSize());
+        foto.setNomeArquivo(UUID.randomUUID().toString() + "_" + arquivo.getOriginalFilename());
 
-            fotoProdutoInput.getArquivo().transferTo(arquivoFoto);
+        FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return fotoProdutoModelAssembler.toModel(fotoSalva);
 
     }
 }

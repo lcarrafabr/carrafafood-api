@@ -4,7 +4,7 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.GrupoNaoEncontradoException;
 import com.carrafasoft.carrafafood.domain.model.Grupo;
 import com.carrafasoft.carrafafood.domain.model.Permissao;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.GrupoRepository;
+import com.carrafasoft.carrafafood.domain.repository.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

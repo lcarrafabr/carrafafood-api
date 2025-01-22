@@ -11,7 +11,7 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaExcepti
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.PedidoRepository;
+import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
 import com.carrafasoft.carrafafood.domain.filter.PedidoFilter;
 import com.carrafasoft.carrafafood.domain.service.EmissaoPedidoService;
 import com.carrafasoft.carrafafood.infrastructure.repository.spec.PedidoSpecs;

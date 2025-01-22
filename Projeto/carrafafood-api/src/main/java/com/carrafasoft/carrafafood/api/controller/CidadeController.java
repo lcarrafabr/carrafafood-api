@@ -9,7 +9,7 @@ import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.CidadeRepository;
+import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

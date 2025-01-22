@@ -2,8 +2,8 @@ package com.carrafasoft.carrafafood.domain.service;
 
 import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
 import com.carrafasoft.carrafafood.domain.model.*;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.CozinhaRepository;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepository;
+import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
+import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

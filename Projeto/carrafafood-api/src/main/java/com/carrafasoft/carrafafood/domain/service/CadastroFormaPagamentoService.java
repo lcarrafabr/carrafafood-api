@@ -3,7 +3,7 @@ package com.carrafasoft.carrafafood.domain.service;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.FormaPagamento;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.FormaPagamentoRepository;
+import com.carrafasoft.carrafafood.domain.repository.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

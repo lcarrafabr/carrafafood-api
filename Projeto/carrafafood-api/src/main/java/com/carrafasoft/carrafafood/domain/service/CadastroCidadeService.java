@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.CidadeRepository;
+import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

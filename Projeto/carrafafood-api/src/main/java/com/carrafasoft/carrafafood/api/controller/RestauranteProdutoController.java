@@ -6,7 +6,7 @@ import com.carrafasoft.carrafafood.api.model.dto.ProdutoModel;
 import com.carrafasoft.carrafafood.api.model.input.ProdutoInput;
 import com.carrafasoft.carrafafood.domain.model.Produto;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.ProdutoRepository;
+import com.carrafasoft.carrafafood.domain.repository.ProdutoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroProdutoService;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;

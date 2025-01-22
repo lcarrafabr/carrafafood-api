@@ -18,8 +18,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepository;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepositoryQueries;
+import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
+import com.carrafasoft.carrafafood.domain.repository.RestauranteRepositoryQueries;
 import com.carrafasoft.carrafafood.infrastructure.repository.spec.RestauranteSpecs;
 
 @Repository

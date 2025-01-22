@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carrafasoft.carrafafood.api.model.CozinhasXmlWrapper;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.CozinhaRepository;
+import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCozinhaService;
 
 import javax.validation.Valid;

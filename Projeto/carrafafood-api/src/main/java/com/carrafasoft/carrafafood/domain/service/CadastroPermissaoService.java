@@ -2,7 +2,7 @@ package com.carrafasoft.carrafafood.domain.service;
 
 import com.carrafasoft.carrafafood.domain.exception.PermissaoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.Permissao;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.PermissaoRepository;
+import com.carrafasoft.carrafafood.domain.repository.PermissaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

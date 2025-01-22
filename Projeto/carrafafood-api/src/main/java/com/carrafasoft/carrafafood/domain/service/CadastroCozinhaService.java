@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.CozinhaRepository;
+import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

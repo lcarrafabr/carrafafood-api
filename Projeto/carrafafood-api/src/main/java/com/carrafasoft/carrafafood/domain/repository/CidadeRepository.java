@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.domain.model.mixin.repository;
+package com.carrafasoft.carrafafood.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

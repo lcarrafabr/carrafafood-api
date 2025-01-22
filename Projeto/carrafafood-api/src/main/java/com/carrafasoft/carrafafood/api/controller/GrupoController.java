@@ -5,7 +5,7 @@ import com.carrafasoft.carrafafood.api.assembler.GrupoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.GrupoModel;
 import com.carrafasoft.carrafafood.api.model.input.GrupoInput;
 import com.carrafasoft.carrafafood.domain.model.Grupo;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.GrupoRepository;
+import com.carrafasoft.carrafafood.domain.repository.GrupoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

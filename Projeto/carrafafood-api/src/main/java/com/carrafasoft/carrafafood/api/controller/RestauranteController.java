@@ -28,7 +28,7 @@ import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.RestauranteRepository;
+import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

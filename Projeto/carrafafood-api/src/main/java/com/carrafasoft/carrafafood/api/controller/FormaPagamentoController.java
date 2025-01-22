@@ -5,7 +5,7 @@ import com.carrafasoft.carrafafood.api.assembler.FormaPagamentoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.FormaPagamentoModel;
 import com.carrafasoft.carrafafood.api.model.input.FormaPagamentoInput;
 import com.carrafasoft.carrafafood.domain.model.FormaPagamento;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.FormaPagamentoRepository;
+import com.carrafasoft.carrafafood.domain.repository.FormaPagamentoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroFormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

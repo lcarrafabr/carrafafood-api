@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.domain.model.mixin.repository;
+package com.carrafasoft.carrafafood.domain.repository;
 
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

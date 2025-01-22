@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.model.Estado;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.EstadoRepository;
+import com.carrafasoft.carrafafood.domain.repository.EstadoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroEstadoService;
 
 import javax.validation.Valid;

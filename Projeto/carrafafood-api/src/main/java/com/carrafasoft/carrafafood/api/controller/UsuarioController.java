@@ -7,7 +7,7 @@ import com.carrafasoft.carrafafood.api.model.input.SenhaInput;
 import com.carrafasoft.carrafafood.api.model.input.UsuarioComSenhaInput;
 import com.carrafasoft.carrafafood.api.model.input.UsuarioInput;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
-import com.carrafasoft.carrafafood.domain.model.mixin.repository.UsuarioRepository;
+import com.carrafasoft.carrafafood.domain.repository.UsuarioRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
