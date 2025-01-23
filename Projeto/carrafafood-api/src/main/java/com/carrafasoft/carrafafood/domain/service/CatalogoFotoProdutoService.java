@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.domain.service;
 
+import com.carrafasoft.carrafafood.domain.exception.FotoProdutoNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.model.FotoProduto;
 import com.carrafasoft.carrafafood.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class CatalogoFotoProdutoService {
         fotoStorage.substituir(nomeArquivoExistente, novaFoto);
 
         return foto;
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
     }
 }
