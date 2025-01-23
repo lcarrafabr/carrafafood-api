@@ -1,4 +1,6 @@
 package com.carrafasoft.carrafafood.infrastructure.service.storage;
+import com.carrafasoft.carrafafood.infrastructure.service.storage.StorageException;
+
 
 import com.carrafasoft.carrafafood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +28,19 @@ public class LocalFotoStorageService implements FotoStorageService {
         try {
             FileCopyUtils.copy(novaFoto.getInputStream(),
                     Files.newOutputStream(arquivoPath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new StorageException("Não foi possível armazenar o arquivo.", e);
+        }
+    }
+
+    @Override
+    public void remover(String nomeArquivo) {
+
+        try {
+            Path arquivoPath = getArquivoPath(nomeArquivo);
+            Files.deleteIfExists(arquivoPath);
+        } catch (Exception e) {
+            throw new StorageException("Não foi possivel remover o arquivo.",e);
         }
     }
 
