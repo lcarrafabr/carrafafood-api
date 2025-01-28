@@ -32,7 +32,6 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
             helper.setSubject(mensagem.getAssunto());
             helper.setText(mensagem.getCorpo(), true);
 
-
             mailSender.send(mimeMessage);
         } catch (Exception e) {
             throw new EmailException(NAO_FOI_POSSIVEL_ENVIAR_EMAIL, e);
