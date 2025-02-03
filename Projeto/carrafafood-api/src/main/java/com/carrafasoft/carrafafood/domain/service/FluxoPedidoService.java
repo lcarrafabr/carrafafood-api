@@ -1,6 +1,7 @@
 package com.carrafasoft.carrafafood.domain.service;
 
 import com.carrafasoft.carrafafood.domain.model.Pedido;
+import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,10 @@ public class FluxoPedidoService {
     private EmissaoPedidoService emissaoPedido;
 
     @Autowired
-    private EnvioEmailService envioEmail;
+    private PedidoRepository pedidoRepository;
+
+//    @Autowired
+//    private EnvioEmailService envioEmail;
 
     @Transactional
     public void confirmar(String codigoPedido) {
@@ -22,14 +26,16 @@ public class FluxoPedidoService {
         Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
         pedido.confirmar();
 
-        var mensagem = EnvioEmailService.Mensagem.builder()
-                .assunto(pedido.getRestaurante().getNome() + " - Pedido Confirmado.")
-                .corpo("pedido-confirmado.html")
-                .variavel("pedido", pedido)
-                .destinatario(pedido.getCliente().getEmail())
-                .build();
+        pedidoRepository.save(pedido);
 
-        envioEmail.enviar(mensagem);
+//        var mensagem = EnvioEmailService.Mensagem.builder()
+//                .assunto(pedido.getRestaurante().getNome() + " - Pedido Confirmado.")
+//                .corpo("pedido-confirmado.html")
+//                .variavel("pedido", pedido)
+//                .destinatario(pedido.getCliente().getEmail())
+//                .build();
+//
+//        envioEmail.enviar(mensagem);
     }
 
     @Transactional
