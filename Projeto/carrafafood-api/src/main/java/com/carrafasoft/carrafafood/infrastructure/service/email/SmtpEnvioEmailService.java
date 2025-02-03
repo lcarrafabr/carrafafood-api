@@ -13,7 +13,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
-@Service
+//@Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
 
     private static final String NAO_FOI_POSSIVEL_ENVIAR_EMAIL = "Não foi possível enviar o e-mail";
@@ -49,7 +49,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         }
     }
 
-    private String processarTemplate(Mensagem mensagem) {
+    String processarTemplate(Mensagem mensagem) {
 
         try {
             Template templete =  freeMakerConfig.getTemplate(mensagem.getCorpo());
