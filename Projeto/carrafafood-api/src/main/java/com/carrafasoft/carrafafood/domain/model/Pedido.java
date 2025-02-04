@@ -80,7 +80,7 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
         setStatus(StatusPedido.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());
 
-        registerEvent(new PedidoConfirmadoEvent(this));
+        registerEvent(new PedidoConfirmadoEvent(this));//registrando um evento
     }
 
     public void entregar() {
