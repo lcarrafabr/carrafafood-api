@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.domain.model;
 
+import com.carrafasoft.carrafafood.domain.event.PedidoCanceladoEvent;
 import com.carrafasoft.carrafafood.domain.event.PedidoConfirmadoEvent;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import lombok.Data;
@@ -91,6 +92,8 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
     public void cancelar() {
         setStatus(StatusPedido.CANCELADO);
         setDataCancelamento(OffsetDateTime.now());
+
+        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     private void setStatus(StatusPedido novoStatus) {
