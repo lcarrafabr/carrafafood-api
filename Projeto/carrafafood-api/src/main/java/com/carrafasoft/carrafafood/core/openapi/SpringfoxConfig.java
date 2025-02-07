@@ -1,5 +1,8 @@
 package com.carrafasoft.carrafafood.core.openapi;
 
+import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -12,6 +15,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import springfox.documentation.builders.ResponseBuilder;
@@ -27,6 +31,8 @@ public class SpringfoxConfig {
     @Bean
     public Docket apiDoket() {
 
+        var typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.carrafasoft.carrafafood.api"))
@@ -36,6 +42,7 @@ public class SpringfoxConfig {
                 .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "gerencia as cidades"));
     }
@@ -48,6 +55,11 @@ public class SpringfoxConfig {
                 .version("1.0")
                 .contact(new Contact("CarrafaFood", "http://localhost:8080", "lcarrafa.br@gmail.com"))
                 .build();
+    }
+
+    @Bean
+    public JacksonModuleRegistrar springFoxJacksonConfig() {
+        return objectMapper -> objectMapper.registerModule(new JavaTimeModule());
     }
 
     private List<Response> globalGetResponseMessages() {
