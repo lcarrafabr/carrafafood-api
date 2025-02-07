@@ -14,7 +14,7 @@ public class SpringfoxConfig {
 
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.carrafasoft.carrafafood.api"))
                 .build();
     }
 }
