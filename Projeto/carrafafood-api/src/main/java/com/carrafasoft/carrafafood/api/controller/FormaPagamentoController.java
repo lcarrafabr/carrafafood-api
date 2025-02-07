@@ -40,15 +40,22 @@ public class FormaPagamentoController {
         List<FormaPagamentoModel> formaPagamentoModels = formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamentos);
 
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())// deixa o cache apenas local (quando não informações são de uso unico do usuario
+                //.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()) //deixa o cache publico
+                //.cacheControl(CacheControl.noCache()) //Se a resposta for cacheada será sempre necessário uma validação no servidor
+                //.cacheControl(CacheControl.noStore()) //torna a resposta não cacheavel. Desativa o cache pra uma resposta.
                 .body(formaPagamentoModels);
     }
 
     @GetMapping("/{formaPagamentoId}")
-    public FormaPagamentoModel buscar(@PathVariable Long formaPagamentoId) {
+    public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId) {
         FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
 
-        return formaPagamentoModelAssembler.toModel(formaPagamento);
+        FormaPagamentoModel formaPagamentoModel =  formaPagamentoModelAssembler.toModel(formaPagamento);
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(formaPagamentoModel);
     }
 
     @PostMapping
