@@ -2,7 +2,7 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.CidadeInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CidadeModelAssembler;
-import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
+import com.carrafasoft.carrafafood.api.controller.openapi.CidadeControllerOpenApi;
 import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
 import com.carrafasoft.carrafafood.api.model.input.CidadeInput;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
@@ -12,13 +12,6 @@ import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
 import com.carrafasoft.carrafafood.domain.repository.CidadeRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,10 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 
 	public static final String CIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
 	
@@ -49,7 +41,6 @@ public class CidadeController {
 
 
 
-	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public List<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
@@ -57,24 +48,16 @@ public class CidadeController {
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
-	@ApiOperation("Busca uma cidade por ID")
-	@ApiResponses({
-			@ApiResponse(responseCode = "400", description = "ID da cidade inválido.", content = @Content(schema = @Schema(implementation = Problem.class))),
-			@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
-	})
 	@GetMapping("/{cidadeId}")
-	public CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1")
-								  @PathVariable Long cidadeId) {
+	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
 		return cidadeModelAssembler.toModel(cidade);
 	}
 
-	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
-									 @RequestBody @Valid CidadeInput cidadeInput) {
+	public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 
@@ -86,14 +69,8 @@ public class CidadeController {
 		}
 	}
 
-	@ApiOperation("Atualiza uma cidade por ID")
-	@ApiResponses({
-			@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
-	})
 	@PutMapping("/{cidadeId}")
-	public CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1")
-								 @PathVariable Long cidadeId,
-								 @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados")
+	public CidadeModel atualizar(@PathVariable Long cidadeId,
 								 @RequestBody @Valid CidadeInput cidadeInput) {
 		try {
 			Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
@@ -108,14 +85,9 @@ public class CidadeController {
 		}
 	}
 
-	@ApiOperation("Exclui uma cidade")
-	@ApiResponses({
-			@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
-	})
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@ApiParam(value = "ID de uma cidade", example = "1")
-							@PathVariable Long cidadeId) {
+	public void remover(@PathVariable Long cidadeId) {
 
 		try {
 			cidadeService.excluir(cidadeId);
