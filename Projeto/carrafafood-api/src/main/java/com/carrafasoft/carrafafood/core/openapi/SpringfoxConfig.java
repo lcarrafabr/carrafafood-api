@@ -47,7 +47,8 @@ public class SpringfoxConfig {
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
-                .tags(new Tag("Cidades", "gerencia as cidades"));
+                .tags(new Tag("Cidades", "gerencia as cidades"),
+                        new Tag("Grupos", "Gerencia os grupos de usuários"));
     }
 
     public ApiInfo apiInfo() {

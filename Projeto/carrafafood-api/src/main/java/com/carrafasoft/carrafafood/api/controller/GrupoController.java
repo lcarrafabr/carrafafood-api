@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.GrupoInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.GrupoModelAssembler;
+import com.carrafasoft.carrafafood.api.controller.openapi.GrupoControllerOpenApi;
 import com.carrafasoft.carrafafood.api.model.dto.GrupoModel;
 import com.carrafasoft.carrafafood.api.model.input.GrupoInput;
 import com.carrafasoft.carrafafood.domain.model.Grupo;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
     @Autowired
     private GrupoRepository grupoRepository;
