@@ -66,11 +66,11 @@ public class CozinhaController {
 		return cozinhaModelPage;
 	}
 
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public CozinhasXmlWrapper listarXml() {
-
-		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
-	}
+//	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+//	public CozinhasXmlWrapper listarXml() {
+//
+//		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
+//	}
 
 	@GetMapping("/{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
