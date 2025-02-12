@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.assembler.CozinhaInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CozinhaModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.model.input.CozinhaInput;
+import com.carrafasoft.carrafafood.api.openapi.controller.CozinhaControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,7 +38,7 @@ import javax.validation.Valid;
 @RestController
 //@RequestMapping(value = "/cozinhas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @RequestMapping(value = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi {
 
 	private static final String COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso.";
 
