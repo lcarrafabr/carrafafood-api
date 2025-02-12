@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
@@ -53,6 +54,7 @@ public class SpringfoxConfig {
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
+                .ignoredParameterTypes(ServletWebRequest.class)
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaModel.class), CozinhasModelOpenApi.class))
                 .apiInfo(apiInfo())
