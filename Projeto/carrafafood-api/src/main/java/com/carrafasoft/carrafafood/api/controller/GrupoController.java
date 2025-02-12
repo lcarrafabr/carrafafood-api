@@ -2,7 +2,7 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.GrupoInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.GrupoModelAssembler;
-import com.carrafasoft.carrafafood.api.controller.openapi.GrupoControllerOpenApi;
+import com.carrafasoft.carrafafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.carrafasoft.carrafafood.api.model.dto.GrupoModel;
 import com.carrafasoft.carrafafood.api.model.input.GrupoInput;
 import com.carrafasoft.carrafafood.domain.model.Grupo;

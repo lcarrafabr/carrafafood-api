@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.core.openapi.model;
+package com.carrafasoft.carrafafood.api.openapi.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -2,7 +2,7 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.CidadeInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CidadeModelAssembler;
-import com.carrafasoft.carrafafood.api.controller.openapi.CidadeControllerOpenApi;
+import com.carrafasoft.carrafafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
 import com.carrafasoft.carrafafood.api.model.input.CidadeInput;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;

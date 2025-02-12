@@ -1,4 +1,4 @@
-package com.carrafasoft.carrafafood.api.controller.openapi;
+package com.carrafasoft.carrafafood.api.openapi.controller;
 
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
 import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
