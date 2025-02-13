@@ -2,17 +2,19 @@ package com.carrafasoft.carrafafood.api.controller;
 
 import com.carrafasoft.carrafafood.api.assembler.UsuarioModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.UsuarioModel;
+import com.carrafasoft.carrafafood.api.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis")
-public class RestauranteUsuarioResponsavelController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/responsaveis", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteUsuarioResponsavelController implements RestauranteUsuarioResponsavelControllerOpenApi {
 
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
