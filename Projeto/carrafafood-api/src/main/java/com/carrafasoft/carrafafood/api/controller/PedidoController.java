@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.assembler.PedidoResumoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoModel;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoResumoModel;
 import com.carrafasoft.carrafafood.api.model.input.PedidoInput;
+import com.carrafasoft.carrafafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.carrafasoft.carrafafood.core.data.PageableTranslator;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
@@ -24,14 +25,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/pedidos")
-public class PedidoController {
+@RequestMapping(path = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
     private PedidoRepository pedidoRepository;

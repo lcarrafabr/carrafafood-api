@@ -2,8 +2,10 @@ package com.carrafasoft.carrafafood.core.openapi;
 
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
+import com.carrafasoft.carrafafood.api.model.dto.PedidoResumoModel;
 import com.carrafasoft.carrafafood.api.openapi.model.CozinhasModelOpenApi;
 import com.carrafasoft.carrafafood.api.openapi.model.PageableModelOpenApi;
+import com.carrafasoft.carrafafood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
@@ -60,11 +62,15 @@ public class SpringfoxConfig {
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, CozinhaModel.class), CozinhasModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, PedidoResumoModel.class),
+                        PedidosResumoModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),
-                        new Tag("Formas de pagamento", "Gerencia as formas de pagamento"));
+                        new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
+                        new Tag("Pedidos", "Gerencia os pedidos"));
     }
 
     public ApiInfo apiInfo() {

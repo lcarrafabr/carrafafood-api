@@ -30,7 +30,7 @@ public interface CozinhaControllerOpenApi {
 
     @ApiOperation("Cadastra uma cozinha")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Cozinha cadastrada", content = @Content(schema = @Schema(implementation = Problem.class)))
+            @ApiResponse(responseCode = "201", description = "Cozinha cadastrada")
     })
     public CozinhaModel adicionar(
             @ApiParam(name = "corpo", value = "Representação de uma nova cozinha")
