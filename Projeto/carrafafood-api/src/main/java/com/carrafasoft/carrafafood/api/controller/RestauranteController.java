@@ -11,12 +11,16 @@ import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.api.model.view.RestauranteView;
+import com.carrafasoft.carrafafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.exception.RestauranteNaoEncontradoException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,9 +67,21 @@ public class RestauranteController {
 		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
 	}
 
+	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "apenas-nome", name = "projecao", paramType = "query", dataType="java.lang.String")
+	})
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping(params = "projecao=resumo")
 	public List<RestauranteModel> listarResumido() {
+
+		return listar();
+	}
+
+	@ApiOperation(value = "Lista restaurantes", hidden = true)
+	@JsonView(RestauranteView.ApenasNome.class)
+	@GetMapping(params = "projecao=apenas-nome")
+	public List<RestauranteModel> listarApenasNomes() {
 
 		return listar();
 	}
@@ -108,12 +124,6 @@ public class RestauranteController {
 //		return listar();
 //	}
 //
-//	@JsonView(RestauranteView.ApenasNome.class)
-//	@GetMapping(params = "projecao=apenas-nome")
-//	public List<RestauranteModel> listarApenasNomes() {
-//
-//		return listar();
-//	}
 
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
