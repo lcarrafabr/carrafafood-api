@@ -11,6 +11,7 @@ import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.api.model.view.RestauranteView;
+import com.carrafasoft.carrafafood.api.openapi.controller.RestauranteControllerOpenApi;
 import com.carrafasoft.carrafafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
@@ -41,8 +43,9 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 @RestController
-@RequestMapping("/restaurantes")
-public class RestauranteController {
+@RequestMapping(path = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class
+RestauranteController implements RestauranteControllerOpenApi {
 	
 	@Autowired
 	private RestauranteRepository restauranteRepository;

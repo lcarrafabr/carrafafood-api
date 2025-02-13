@@ -27,7 +27,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
         public ResponseEntity<FormaPagamentoModel> buscar(
-                @ApiParam(value = "ID de uma forma de pagamento", example = "1")
+                @ApiParam(value = "ID de uma forma de pagamento", example = "1", required = true)
                 Long formaPagamentoId,
 
                 ServletWebRequest request);
@@ -37,7 +37,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "201", description = "Forma de pagamento cadastradao")
         })
         public FormaPagamentoModel adicionar(
-                @ApiParam(name = "corpo", value = "Representação de uma nova forma de pagamento")
+                @ApiParam(name = "corpo", value = "Representação de uma nova forma de pagamento", required = true)
                 FormaPagamentoInput formaPagamentoInput);
 
         @ApiOperation("Atualiza uma cidade por ID")
@@ -46,7 +46,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
         public FormaPagamentoModel atualizar(
-                @ApiParam(value = "ID de uma forma de pagamento", example = "1")
+                @ApiParam(value = "ID de uma forma de pagamento", example = "1", required = true)
                 Long formaPagamentoId,
 
                 @ApiParam(name = "corpo", value = "Representação de uma forma de pagamento com os novos dados")
