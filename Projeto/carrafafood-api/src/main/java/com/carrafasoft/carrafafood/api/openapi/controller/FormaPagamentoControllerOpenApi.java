@@ -19,14 +19,14 @@ import java.util.List;
     public interface FormaPagamentoControllerOpenApi {
 
         @ApiOperation("Lista as formas de pagamento")
-        public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request);
+        ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request);
 
         @ApiOperation("Busca uma forma de pagamento por ID")
         @ApiResponses({
                 @ApiResponse(responseCode = "400", description = "ID da forma de pagamento inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
                 @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public ResponseEntity<FormaPagamentoModel> buscar(
+        ResponseEntity<FormaPagamentoModel> buscar(
                 @ApiParam(value = "ID de uma forma de pagamento", example = "1", required = true)
                 Long formaPagamentoId,
 
@@ -36,7 +36,7 @@ import java.util.List;
         @ApiResponses({
                 @ApiResponse(responseCode = "201", description = "Forma de pagamento cadastradao")
         })
-        public FormaPagamentoModel adicionar(
+        FormaPagamentoModel adicionar(
                 @ApiParam(name = "corpo", value = "Representação de uma nova forma de pagamento", required = true)
                 FormaPagamentoInput formaPagamentoInput);
 
@@ -45,7 +45,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "400", description = "ID da forma de pagamento inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
                 @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public FormaPagamentoModel atualizar(
+        FormaPagamentoModel atualizar(
                 @ApiParam(value = "ID de uma forma de pagamento", example = "1", required = true)
                 Long formaPagamentoId,
 
@@ -57,6 +57,6 @@ import java.util.List;
                 @ApiResponse(responseCode = "204", description = "Forma de pagamento excluída"),
                 @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontradaa", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public void remover(Long formaPagamentoId);
+        void remover(Long formaPagamentoId);
     }
 

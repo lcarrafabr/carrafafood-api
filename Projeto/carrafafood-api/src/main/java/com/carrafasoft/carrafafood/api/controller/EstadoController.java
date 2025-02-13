@@ -6,11 +6,13 @@ import com.carrafasoft.carrafafood.api.assembler.EstadoInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.EstadoModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.EstadoModel;
 import com.carrafasoft.carrafafood.api.model.input.EstadoInput;
+import com.carrafasoft.carrafafood.api.openapi.controller.EstadoControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +31,8 @@ import com.carrafasoft.carrafafood.domain.service.CadastroEstadoService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/estados")
-public class EstadoController {
+@RequestMapping(path = "/estados", produces = MediaType.APPLICATION_JSON_VALUE)
+public class EstadoController implements EstadoControllerOpenApi {
 
 	public static final String ESTADO_EM_USO = "Estado de código %d não pode ser removida, pois está em uso.";
 	

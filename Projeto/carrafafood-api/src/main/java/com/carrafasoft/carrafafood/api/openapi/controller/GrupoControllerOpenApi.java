@@ -17,14 +17,14 @@ import java.util.List;
     public interface GrupoControllerOpenApi {
 
         @ApiOperation("Lista os grupos")
-        public List<GrupoModel> listar();
+        List<GrupoModel> listar();
 
         @ApiOperation("Busca um grupo por ID")
         @ApiResponses({
                 @ApiResponse(responseCode = "400", description = "ID da grupo inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
                 @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public GrupoModel buscar(
+        GrupoModel buscar(
                 @ApiParam(value = "ID de um grupo", example = "1")
                 Long grupoId);
 
@@ -32,7 +32,7 @@ import java.util.List;
         @ApiResponses({
                 @ApiResponse(responseCode = "201", description = "Grupo cadastrado")
         })
-        public GrupoModel adicionar(
+        GrupoModel adicionar(
                 @ApiParam(name = "corpo", value = "Representação de um novo grupo")
                 GrupoInput grupoInput);
 
@@ -41,7 +41,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "200", description = "Grupo atualizadoo"),
                 @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public GrupoModel atualizar(
+        GrupoModel atualizar(
                 @ApiParam(value = "ID de um grupo", example = "1")
                 Long grupoId,
 
@@ -53,7 +53,7 @@ import java.util.List;
                 @ApiResponse(responseCode = "204", description = "Grupo excluído"),
                 @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))
         })
-        public void remover(
+        void remover(
                 @ApiParam(value = "ID de um grupo", example = "1")
                 Long grupoId);
     }

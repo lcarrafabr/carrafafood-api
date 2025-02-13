@@ -17,25 +17,25 @@ import java.util.List;
 public interface CidadeControllerOpenApi {
 
     @ApiOperation("Lista as cidades")
-    public List<CidadeModel> listar();
+    List<CidadeModel> listar();
 
     @ApiOperation("Busca uma cidade por ID")
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "ID da cidade inválido.", content = @Content(schema = @Schema(implementation = Problem.class))),
             @ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
     })
-    public CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
+    CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
                               Long cidadeId);
 
     @ApiOperation("Cadastra uma cidade")
-    public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+    CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
                                  CidadeInput cidadeInput);
 
     @ApiOperation("Atualiza uma cidade por ID")
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
     })
-    public CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
+    CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
                                  Long cidadeId,
                                  @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados")
                                  CidadeInput cidadeInput);
@@ -45,6 +45,6 @@ public interface CidadeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))
     })
-    public void remover(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
+    void remover(@ApiParam(value = "ID de uma cidade", example = "1", required = true)
                         Long cidadeId);
 }
