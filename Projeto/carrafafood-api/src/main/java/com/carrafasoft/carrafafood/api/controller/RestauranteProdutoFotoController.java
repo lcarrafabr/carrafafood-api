@@ -72,7 +72,7 @@ public class RestauranteProdutoFotoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
+    public ResponseEntity<InputStreamResource> servir(@PathVariable Long restauranteId,
                                                           @PathVariable Long produtoId,
                                                           @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
@@ -94,6 +94,13 @@ public class RestauranteProdutoFotoController {
         }
     }
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long restauranteId,
+                        @PathVariable Long produtoId) {
+        catalogoFotoProdutoService.excluir(restauranteId, produtoId);
+    }
+
     private void verificarCompatibilidadeMeadiaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
 
         boolean compativel = mediaTypesAceitas.stream()
@@ -102,12 +109,5 @@ public class RestauranteProdutoFotoController {
         if(!compativel) {
             throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
         }
-    }
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long restauranteId,
-                        @PathVariable Long produtoId) {
-        catalogoFotoProdutoService.excluir(restauranteId, produtoId);
     }
 }
