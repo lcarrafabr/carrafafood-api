@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.api.controller;
 
+import com.carrafasoft.carrafafood.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.filter.VendaDiariaFilter;
 import com.carrafasoft.carrafafood.domain.model.dto.VendaDiaria;
 import com.carrafasoft.carrafafood.domain.service.VendaQueryService;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/estatisticas")
-public class EstatisticasController {
+public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired
     private VendaQueryService vendaQueryService;
