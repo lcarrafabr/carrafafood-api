@@ -73,7 +73,8 @@ public class SpringfoxConfig {
                         new Tag("Pedidos", "Gerencia os pedidos"),
                         new Tag("Restaurantes", "Gerencia os restaurantes"),
                         new Tag("Estados", "Gerencia os estados"),
-                        new Tag("Produtos", "Gerencia os produtos de restaurantes"));
+                        new Tag("Produtos", "Gerencia os produtos de restaurantes"),
+                        new Tag("Usuários", "Gerencia os usuários"));
     }
 
     public ApiInfo apiInfo() {
