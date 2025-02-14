@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.api.controller;
 
+import com.carrafasoft.carrafafood.api.ResourceUriHelper;
 import com.carrafasoft.carrafafood.api.assembler.CidadeInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CidadeModelAssembler;
 import com.carrafasoft.carrafafood.api.openapi.controller.CidadeControllerOpenApi;
@@ -15,11 +16,17 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -64,7 +71,11 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 			cidade = cidadeService.salvar(cidade);
 
-			return cidadeModelAssembler.toModel(cidade);
+			CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+			ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+
+			return cidadeModel;
 		} catch (EstadoNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
