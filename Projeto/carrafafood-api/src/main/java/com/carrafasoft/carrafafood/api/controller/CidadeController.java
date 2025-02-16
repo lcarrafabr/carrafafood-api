@@ -3,9 +3,9 @@ package com.carrafasoft.carrafafood.api.controller;
 import com.carrafasoft.carrafafood.api.ResourceUriHelper;
 import com.carrafasoft.carrafafood.api.assembler.CidadeInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.CidadeModelAssembler;
-import com.carrafasoft.carrafafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
 import com.carrafasoft.carrafafood.api.model.input.CidadeInput;
+import com.carrafasoft.carrafafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
@@ -16,18 +16,12 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -63,11 +57,14 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-		cidadeModel.add(Link.of("http://localhost:8080/cidades/2"));
+		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+				.slash(cidadeModel.getId()).withSelfRel());
 
-		cidadeModel.add(Link.of("http://localhost:8080/cidades", "cidades"));
+		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+				.withRel("cidades"));
 
-		cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+		cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+				.slash(cidadeModel.getEstado().getId()).withSelfRel());
 
 		return cidadeModel;
 	}
