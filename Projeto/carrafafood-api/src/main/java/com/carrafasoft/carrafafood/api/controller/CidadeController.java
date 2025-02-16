@@ -16,6 +16,7 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,14 +58,19 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-				.slash(cidadeModel.getId()).withSelfRel());
+		Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
+				.buscar(cidadeModel.getId())).withSelfRel();//01
 
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-				.withRel("cidades"));
+		Link linkCidade = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
+				.listar()).withRel("cidades");//02
 
-		cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-				.slash(cidadeModel.getEstado().getId()).withSelfRel());
+		Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
+				.buscar(cidadeModel.getEstado().getId())).withSelfRel();//03
+
+
+		cidadeModel.add(link);//01
+		cidadeModel.add(linkCidade);//02
+		cidadeModel.getEstado().add(linkEstado);//03
 
 		return cidadeModel;
 	}
