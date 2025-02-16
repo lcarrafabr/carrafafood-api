@@ -16,6 +16,7 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -60,7 +61,15 @@ public class CidadeController implements CidadeControllerOpenApi {
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
-		return cidadeModelAssembler.toModel(cidade);
+		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+		cidadeModel.add(Link.of("http://localhost:8080/cidades/2"));
+
+		cidadeModel.add(Link.of("http://localhost:8080/cidades", "cidades"));
+
+		cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+
+		return cidadeModel;
 	}
 
 	@PostMapping
