@@ -50,31 +50,9 @@ public class CidadeController implements CidadeControllerOpenApi {
 	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
 
-		List<CidadeModel> cidadesModel = cidadeModelAssembler.toCollectionModel(todasCidades);
+		return cidadeModelAssembler.toCollectionModel(todasCidades);
 
-		cidadesModel.forEach(cidadeModel -> {
-
-			Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-					.buscar(cidadeModel.getId())).withSelfRel();//01
-
-			Link linkCidade = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-					.listar()).withRel("cidades");//02
-
-			Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
-					.buscar(cidadeModel.getEstado().getId())).withSelfRel();//03
-
-
-			cidadeModel.add(link);//01
-			cidadeModel.add(linkCidade);//02
-			cidadeModel.getEstado().add(linkEstado);//03
-
-		});
-
-		CollectionModel<CidadeModel> cidadesCollectionModel = CollectionModel.of(cidadesModel);
-
-		cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-
-		return cidadesCollectionModel;
+		//cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
 	}
 
 	@GetMapping("/{cidadeId}")
@@ -82,20 +60,6 @@ public class CidadeController implements CidadeControllerOpenApi {
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
-
-		Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-				.buscar(cidadeModel.getId())).withSelfRel();//01
-
-		Link linkCidade = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-				.listar()).withRel("cidades");//02
-
-		Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
-				.buscar(cidadeModel.getEstado().getId())).withSelfRel();//03
-
-
-		cidadeModel.add(link);//01
-		cidadeModel.add(linkCidade);//02
-		cidadeModel.getEstado().add(linkEstado);//03
 
 		return cidadeModel;
 	}
