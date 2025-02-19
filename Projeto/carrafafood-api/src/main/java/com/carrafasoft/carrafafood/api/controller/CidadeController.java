@@ -16,6 +16,7 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -46,10 +47,34 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 
 	@GetMapping
-	public List<CidadeModel> listar() {
+	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
 
-		return cidadeModelAssembler.toCollectionModel(todasCidades);
+		List<CidadeModel> cidadesModel = cidadeModelAssembler.toCollectionModel(todasCidades);
+
+		cidadesModel.forEach(cidadeModel -> {
+
+			Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
+					.buscar(cidadeModel.getId())).withSelfRel();//01
+
+			Link linkCidade = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
+					.listar()).withRel("cidades");//02
+
+			Link linkEstado = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
+					.buscar(cidadeModel.getEstado().getId())).withSelfRel();//03
+
+
+			cidadeModel.add(link);//01
+			cidadeModel.add(linkCidade);//02
+			cidadeModel.getEstado().add(linkEstado);//03
+
+		});
+
+		CollectionModel<CidadeModel> cidadesCollectionModel = CollectionModel.of(cidadesModel);
+
+		cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+
+		return cidadesCollectionModel;
 	}
 
 	@GetMapping("/{cidadeId}")
