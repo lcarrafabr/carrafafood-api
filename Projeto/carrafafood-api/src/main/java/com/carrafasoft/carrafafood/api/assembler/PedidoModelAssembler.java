@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.api.assembler;
 
+import com.carrafasoft.carrafafood.api.AlgaLinks;
 import com.carrafasoft.carrafafood.api.controller.*;
 import com.carrafasoft.carrafafood.api.model.dto.PedidoModel;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
@@ -21,6 +22,9 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public PedidoModelAssembler() {
         super(PedidoController.class, PedidoModel.class);
     }
@@ -30,21 +34,8 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
         PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
 
-        TemplateVariables pageVariables = new TemplateVariables(
-                new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
-        );
 
-        TemplateVariables filtroVariables = new TemplateVariables(
-                new TemplateVariable("clienteId", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM));
-
-        String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
-
-        pedidoModel.add(Link.of(UriTemplate.of(pedidosUrl,pageVariables.concat(filtroVariables)), "pedidos"));
+        pedidoModel.add(algaLinks.linkToPedidos());
 
         pedidoModel.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
                 .buscar(pedido.getRestaurante().getId())).withSelfRel());
