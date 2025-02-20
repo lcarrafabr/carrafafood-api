@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.api.assembler;
 
+import com.carrafasoft.carrafafood.api.AlgaLinks;
 import com.carrafasoft.carrafafood.api.controller.CozinhaController;
 import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
@@ -19,17 +20,19 @@ public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<C
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public CozinhaModelAssembler() {
         super(CozinhaController.class, CozinhaModel.class);
     }
 
     @Override
     public CozinhaModel toModel(Cozinha cozinha) {
-
         CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
         modelMapper.map(cozinha, cozinhaModel);
 
-        cozinhaModel.add(WebMvcLinkBuilder.linkTo(CozinhaController.class).withRel("cozinhas"));
+        cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
 
         return cozinhaModel;
     }

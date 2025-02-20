@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.api.assembler;
 
+import com.carrafasoft.carrafafood.api.AlgaLinks;
 import com.carrafasoft.carrafafood.api.controller.EstadoController;
 import com.carrafasoft.carrafafood.api.model.dto.EstadoModel;
 import com.carrafasoft.carrafafood.domain.model.Estado;
@@ -20,6 +21,9 @@ public class EstadoModelAssembler extends RepresentationModelAssemblerSupport<Es
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public EstadoModelAssembler() {
         super(EstadoController.class, EstadoModel.class);
     }
@@ -29,7 +33,7 @@ public class EstadoModelAssembler extends RepresentationModelAssemblerSupport<Es
         EstadoModel estadoModel = createModelWithId(estado.getId(), estado);
         modelMapper.map(estado, estadoModel);
 
-        estadoModel.add(linkTo(EstadoController.class).withRel("estados"));
+        estadoModel.add(algaLinks.linkToEstados("estados"));
 
         return estadoModel;
     }
