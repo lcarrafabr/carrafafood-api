@@ -9,6 +9,7 @@ import com.carrafasoft.carrafafood.domain.model.FormaPagamento;
 import com.carrafasoft.carrafafood.domain.repository.FormaPagamentoRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroFormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +40,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request) {
+    public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request) {
 
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
@@ -60,7 +61,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
         System.out.println("Processado dados");
         List<FormaPagamento> todasFormasPagamentos = formaPagamentoRepository.findAll();
 
-        List<FormaPagamentoModel> formaPagamentoModels = formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamentos);
+        CollectionModel<FormaPagamentoModel> formaPagamentoModels = formaPagamentoModelAssembler.toCollectionModel(todasFormasPagamentos);
 
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())// deixa o cache apenas local (quando não informações são de uso unico do usuario

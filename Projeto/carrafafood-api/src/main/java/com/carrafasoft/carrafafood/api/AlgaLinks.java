@@ -195,6 +195,18 @@ public class AlgaLinks {
                 .ativar(restauranteId)).withRel(rel);
     }
 
+    public Link linkToRestauranteFormasPagamento(Long restauranteId) {
+        return linkToRestauranteFormasPagamento(restauranteId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToFormasPagamento(String rel) {
+        return linkTo(FormaPagamentoController.class).withRel(rel);
+    }
+
+    public Link linkToFormasPagamento() {
+        return linkToFormasPagamento(IanaLinkRelations.SELF.value());
+    }
+
     public static final TemplateVariables PROJECAO_VARIABLES = new TemplateVariables(
             new TemplateVariable("projecao", TemplateVariable.VariableType.REQUEST_PARAM));
 
