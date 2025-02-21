@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.api.openapi.controller;
 
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteApenasNomeModel;
+import com.carrafasoft.carrafafood.api.model.dto.RestauranteBasicoModel;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.api.model.view.RestauranteView;
@@ -26,7 +27,7 @@ public interface RestauranteControllerOpenApi {
                     name = "projecao", paramType = "query", type = "string")
     })
     //@JsonView(RestauranteView.Resumo.class)
-    CollectionModel<RestauranteModel> listar();
+    CollectionModel<RestauranteBasicoModel> listar();
 
     @ApiOperation(value = "Lista restaurantes", hidden = true)
     CollectionModel<RestauranteApenasNomeModel> listarApenasNomes();

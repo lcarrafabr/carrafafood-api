@@ -11,6 +11,7 @@ import com.carrafasoft.carrafafood.api.assembler.RestauranteBasicoModelAssembler
 import com.carrafasoft.carrafafood.api.assembler.RestauranteInputDisassembler;
 import com.carrafasoft.carrafafood.api.assembler.RestauranteModelAssembler;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteApenasNomeModel;
+import com.carrafasoft.carrafafood.api.model.dto.RestauranteBasicoModel;
 import com.carrafasoft.carrafafood.api.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.api.model.view.RestauranteView;
@@ -75,12 +76,13 @@ RestauranteController implements RestauranteControllerOpenApi {
 
 
 
+	@Override
+//	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
-	public CollectionModel<RestauranteModel> listar() {
-
-		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+	public CollectionModel<RestauranteBasicoModel> listar() {
+		return restauranteBasicoModelAssembler
+				.toCollectionModel(restauranteRepository.findAll());
 	}
-
 //	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoModelOpenApi.class)
 //	@ApiImplicitParams({
 //			@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "apenas-nome", name = "projecao", paramType = "query", dataType="java.lang.String")
