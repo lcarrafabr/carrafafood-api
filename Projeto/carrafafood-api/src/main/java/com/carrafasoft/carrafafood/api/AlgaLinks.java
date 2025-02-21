@@ -15,6 +15,9 @@ public class AlgaLinks {
             new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
             new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM));
 
+    public static final TemplateVariables PROJECAO_VARIABLES = new TemplateVariables(
+            new TemplateVariable("projecao", TemplateVariable.VariableType.REQUEST_PARAM));
+
     public Link linkToPedidos(String rel) {
 
         TemplateVariables filtroVariables = new TemplateVariables(
@@ -215,7 +218,16 @@ public class AlgaLinks {
         return linkToFormasPagamento(IanaLinkRelations.SELF.value());
     }
 
-    public static final TemplateVariables PROJECAO_VARIABLES = new TemplateVariables(
-            new TemplateVariable("projecao", TemplateVariable.VariableType.REQUEST_PARAM));
+    public Link linkToRestauranteResponsavelDesassociacao(
+            Long restauranteId, Long usuarioId, String rel) {
+
+        return linkTo(methodOn(RestauranteUsuarioResponsavelController.class)
+                .desassociar(restauranteId, usuarioId)).withRel(rel);
+    }
+
+    public Link linkToRestauranteResponsavelAssociacao(Long restauranteId, String rel) {
+        return linkTo(methodOn(RestauranteUsuarioResponsavelController.class)
+                .associar(restauranteId, null)).withRel(rel);
+    }
 
 }
