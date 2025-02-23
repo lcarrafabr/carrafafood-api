@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.openapi.controller.UsuarioGrupoController
 import com.carrafasoft.carrafafood.domain.model.Usuario;
 import com.carrafasoft.carrafafood.domain.service.CadastroUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
     private GrupoModelAssembler grupoModelAssembler;
 
     @GetMapping
-    public List<GrupoModel> listar(@PathVariable Long usuarioId) {
+    public CollectionModel<GrupoModel> listar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 
         return grupoModelAssembler.toCollectionModel(usuario.getGrupos());
