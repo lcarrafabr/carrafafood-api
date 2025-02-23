@@ -1,11 +1,13 @@
 package com.carrafasoft.carrafafood.api.controller;
 
+import com.carrafasoft.carrafafood.api.AlgaLinks;
 import com.carrafasoft.carrafafood.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.filter.VendaDiariaFilter;
 import com.carrafasoft.carrafafood.domain.model.dto.VendaDiaria;
 import com.carrafasoft.carrafafood.domain.service.VendaQueryService;
 import com.carrafasoft.carrafafood.domain.service.VendaReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,23 +25,35 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
     @Autowired
     private VendaReportService vendaReportService;
 
-    @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro,
-                                                    @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
+    @Autowired
+    private AlgaLinks algaLinks;
 
-        return vendaQueryService.consultarVendasDiarias(filtro, timeOffSet);
+    @Override
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public EstatisticasModel estatisticas() {
+        var estatisticasModel = new EstatisticasModel();
+
+        estatisticasModel.add(algaLinks.linkToEstatisticasVendasDiarias("vendas-diarias"));
+
+        return estatisticasModel;
     }
 
+    @Override
+    @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro,
+                                                    @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
+        return vendaQueryService.consultarVendasDiarias(filtro, timeOffset);
+    }
+
+    @Override
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filtro,
-                                                            @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
+                                                            @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
 
-        byte[] bytesPdf = vendaReportService.emitirVendasDiarias(filtro, timeOffSet);
+        byte[] bytesPdf = vendaReportService.emitirVendasDiarias(filtro, timeOffset);
 
         var headers = new HttpHeaders();
-
-        //attachment é para download e não embutido no navegador
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=vendas-diarias.xlsx");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=vendas-diarias.pdf");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -47,24 +61,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
                 .body(bytesPdf);
     }
 
-
-    @GetMapping(path = "/vendas-diarias", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    public ResponseEntity<byte[]> consultarVendasDiariasExcel(
-            VendaDiariaFilter filtro,
-            @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
-
-        // Gerar relatório em Excel
-        byte[] relatorio = vendaReportService.emitirVendasDiariasToExcel(filtro, timeOffSet);
-
-        // Configuração do cabeçalho
-        var headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=vendas-diarias.xlsx");
-
-        // Retornar o relatório em Excel
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .headers(headers)
-                .body(relatorio);
+    public static class EstatisticasModel extends RepresentationModel<EstatisticasModel> {
     }
 
 }
