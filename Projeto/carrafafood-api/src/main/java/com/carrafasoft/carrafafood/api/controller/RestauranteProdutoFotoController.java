@@ -60,11 +60,26 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
         foto.setTamanho(arquivo.getSize());
         foto.setNomeArquivo(arquivo.getOriginalFilename());
 
+        System.out.println("Mime: " + foto.getContentType());
+        var magicNumber = arquivo.getInputStream().readNBytes(4);
+        System.out.println("Magic Number: " + bytesParaHex(magicNumber));
+
+
+
         FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto, arquivo.getInputStream());
 
         return fotoProdutoModelAssembler.toModel(fotoSalva);
 
     }
+
+    private String bytesParaHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02X ", b));
+        }
+        return sb.toString().trim();
+    }
+
 
     @GetMapping()
     public FotoProdutoModel buscar(@PathVariable Long restauranteId,
