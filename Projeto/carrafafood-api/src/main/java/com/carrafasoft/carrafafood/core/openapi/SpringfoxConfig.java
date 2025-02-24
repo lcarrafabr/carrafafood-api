@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.core.openapi;
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
 import com.carrafasoft.carrafafood.api.model.dto.*;
 import com.carrafasoft.carrafafood.api.openapi.model.*;
+import com.carrafasoft.carrafafood.domain.model.PermissaoModel;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
@@ -79,6 +80,13 @@ public class SpringfoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, FormaPagamentoModel.class),
                         FormasPagamentoModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, GrupoModel.class),
+                        GruposModelOpenApi.class))
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
+                        PermissoesModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
