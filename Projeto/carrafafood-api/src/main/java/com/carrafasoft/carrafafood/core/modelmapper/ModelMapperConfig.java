@@ -1,7 +1,7 @@
 package com.carrafasoft.carrafafood.core.modelmapper;
 
-import com.carrafasoft.carrafafood.api.model.dto.EnderecoModel;
-import com.carrafasoft.carrafafood.api.model.input.ItemPedidoInput;
+import com.carrafasoft.carrafafood.api.v1.model.dto.EnderecoModel;
+import com.carrafasoft.carrafafood.api.v1.model.input.ItemPedidoInput;
 import com.carrafasoft.carrafafood.domain.model.Endereco;
 import com.carrafasoft.carrafafood.domain.model.ItemPedido;
 import org.modelmapper.ModelMapper;

@@ -1,15 +1,14 @@
 package com.carrafasoft.carrafafood.core.openapi;
 
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
-import com.carrafasoft.carrafafood.api.model.dto.*;
-import com.carrafasoft.carrafafood.api.openapi.model.*;
+import com.carrafasoft.carrafafood.api.v1.model.dto.*;
+import com.carrafasoft.carrafafood.api.v1.openapi.model.*;
 import com.carrafasoft.carrafafood.domain.model.PermissaoModel;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
