@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.api.openapi.controller;
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
 import com.carrafasoft.carrafafood.api.model.dto.FormaPagamentoModel;
 import com.carrafasoft.carrafafood.api.model.input.FormaPagamentoInput;
+import com.carrafasoft.carrafafood.api.openapi.model.FormasPagamentoModelOpenApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,7 +20,12 @@ import java.util.List;
     @Api(tags = "Formas de pagamento")
     public interface FormaPagamentoControllerOpenApi {
 
-        @ApiOperation("Lista as formas de pagamento")
+        @ApiOperation(value = "Lista as formas de pagamento")
+        @ApiResponses({
+                @ApiResponse(responseCode = "200", description = "OK",
+                        content = @Content(mediaType = "application/json",
+                                schema = @Schema(implementation = FormasPagamentoModelOpenApi.class)))
+        })
         ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request);
 
         @ApiOperation("Busca uma forma de pagamento por ID")

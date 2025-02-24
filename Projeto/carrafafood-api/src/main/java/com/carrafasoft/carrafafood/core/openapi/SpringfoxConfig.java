@@ -1,10 +1,7 @@
 package com.carrafasoft.carrafafood.core.openapi;
 
 import com.carrafasoft.carrafafood.api.exceptionhandler.Problem;
-import com.carrafasoft.carrafafood.api.model.dto.CidadeModel;
-import com.carrafasoft.carrafafood.api.model.dto.CozinhaModel;
-import com.carrafasoft.carrafafood.api.model.dto.EstadoModel;
-import com.carrafasoft.carrafafood.api.model.dto.PedidoResumoModel;
+import com.carrafasoft.carrafafood.api.model.dto.*;
 import com.carrafasoft.carrafafood.api.openapi.model.*;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -79,6 +76,9 @@ public class SpringfoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, EstadoModel.class),
                         EstadosModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, FormaPagamentoModel.class),
+                        FormasPagamentoModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
