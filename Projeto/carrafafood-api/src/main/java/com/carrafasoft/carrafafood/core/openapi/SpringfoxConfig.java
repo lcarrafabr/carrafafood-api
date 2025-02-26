@@ -159,8 +159,10 @@ public class SpringfoxConfig {
     public ApiInfo apiInfoV1() {
 
         return new ApiInfoBuilder()
-                .title("CarrafaFood API")
-                .description("Api de estudos da Algaworks para clientes e restaurantes")
+                .title("CarrafaFood API (Depreciada)")
+                .description("Api de estudos da Algaworks para clientes e restaurantes. <br>" +
+                        "<strong> Essa versão da API está depreciada e deixará de existir quando eu quiser: ??/??/20??. <br>" +
+                        "Use a versão mais atual da API.")
                 .version("1.0")
                 .contact(new Contact("CarrafaFood", "http://localhost:8080", "lcarrafa.br@gmail.com"))
                 .build();
