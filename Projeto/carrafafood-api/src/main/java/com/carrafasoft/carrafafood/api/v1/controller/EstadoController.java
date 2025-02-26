@@ -32,7 +32,7 @@ import com.carrafasoft.carrafafood.domain.service.CadastroEstadoService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/estados", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/estados", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EstadoController implements EstadoControllerOpenApi {
 
 	public static final String ESTADO_EM_USO = "Estado de código %d não pode ser removida, pois está em uso.";

@@ -37,7 +37,7 @@ import javax.validation.Valid;
 
 @RestController
 //@RequestMapping(value = "/cozinhas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-@RequestMapping(value = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CozinhaController implements CozinhaControllerOpenApi {
 
 	private static final String COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso.";
