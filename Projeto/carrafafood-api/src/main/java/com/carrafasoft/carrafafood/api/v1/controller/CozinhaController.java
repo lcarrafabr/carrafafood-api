@@ -8,6 +8,7 @@ import com.carrafasoft.carrafafood.api.v1.model.dto.CozinhaModel;
 import com.carrafasoft.carrafafood.api.v1.model.input.CozinhaInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,6 +36,7 @@ import com.carrafasoft.carrafafood.domain.service.CadastroCozinhaService;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 //@RequestMapping(value = "/cozinhas", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @RequestMapping(value = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,6 +65,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 10) Pageable pageable) {
 		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
+		log.info("...: Consultado Cozinhas :...");
+
 
 		PagedModel<CozinhaModel> cozinhasPagedmodel = pagedResourcesAssembler.toModel(cozinhasPage, cozinhaModelAssembler);
 
@@ -80,6 +84,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
 
+		log.info("...: Consultado Cozinhas :...");
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 
