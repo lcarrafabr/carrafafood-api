@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
@@ -18,10 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RepresentationBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -31,6 +29,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -40,13 +43,15 @@ import java.util.function.Consumer;
 public class SpringfoxConfig {
 
     @Bean
-    public Docket apiDoket() {
+    public Docket apiDoketV1() {
 
         var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.OAS_30)
+                .groupName("V1")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.carrafasoft.carrafafood.api"))
+                .paths(PathSelectors.ant("/v1/**"))
                 .build()
                 .useDefaultResponseMessages(false)
                 .globalResponses(HttpMethod.GET, globalGetResponseMessages())
@@ -95,7 +100,7 @@ public class SpringfoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
                         PermissoesModelOpenApi.class))
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfoV1())
                 .tags(new Tag("Cidades", "gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),
@@ -109,12 +114,48 @@ public class SpringfoxConfig {
                         new Tag("Permissões", "Gerencia as permissões"));
     }
 
-    public ApiInfo apiInfo() {
+
+    @Bean
+    public Docket apiDocketV2() {
+        var typeResolver = new TypeResolver();
+
+        return new Docket(DocumentationType.OAS_30)
+                .groupName("V2")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.carrafasoft.carrafafood.api"))
+                .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, globalGetResponseMessages())
+                .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
+                .ignoredParameterTypes(ServletWebRequest.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
+                        File.class, InputStream.class)
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .directModelSubstitute(Links.class, LinksModelOpenApi.class)
+
+                .apiInfo(apiInfoV2());
+    }
+
+    public ApiInfo apiInfoV1() {
 
         return new ApiInfoBuilder()
                 .title("CarrafaFood API")
                 .description("Api de estudos da Algaworks para clientes e restaurantes")
                 .version("1.0")
+                .contact(new Contact("CarrafaFood", "http://localhost:8080", "lcarrafa.br@gmail.com"))
+                .build();
+    }
+
+    public ApiInfo apiInfoV2() {
+
+        return new ApiInfoBuilder()
+                .title("CarrafaFood API")
+                .description("Api de estudos da Algaworks para clientes e restaurantes")
+                .version("2.0")
                 .contact(new Contact("CarrafaFood", "http://localhost:8080", "lcarrafa.br@gmail.com"))
                 .build();
     }
