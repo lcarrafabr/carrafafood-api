@@ -4,6 +4,7 @@ import com.carrafasoft.carrafafood.api.v2.assembler.CozinhaInputDisassemblerV2;
 import com.carrafasoft.carrafafood.api.v2.assembler.CozinhaModelAssemblerV2;
 import com.carrafasoft.carrafafood.api.v2.model.CozinhaModelV2;
 import com.carrafasoft.carrafafood.api.v2.model.input.CozinhaInputV2;
+import com.carrafasoft.carrafafood.api.v2.openapiv2.controller.CozinhaControllerV2OpenApi;
 import com.carrafasoft.carrafafood.domain.model.Cozinha;
 import com.carrafasoft.carrafafood.domain.repository.CozinhaRepository;
 import com.carrafasoft.carrafafood.domain.service.CadastroCozinhaService;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/v2/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CozinhaControllerV2 {
+public class CozinhaControllerV2 implements CozinhaControllerV2OpenApi {
 
     @Autowired
     private CozinhaRepository cozinhaRepository;

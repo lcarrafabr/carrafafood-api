@@ -10,6 +10,7 @@ import com.carrafasoft.carrafafood.api.v2.assembler.CidadeInputDisassemblerV2;
 import com.carrafasoft.carrafafood.api.v2.assembler.CidadeModelAssemblerV2;
 import com.carrafasoft.carrafafood.api.v2.model.CidadeModelV2;
 import com.carrafasoft.carrafafood.api.v2.model.input.CidadeInputV2;
+import com.carrafasoft.carrafafood.api.v2.openapiv2.controller.CidadeControllerV2OpenApi;
 import com.carrafasoft.carrafafood.core.web.AlgaMediaTypes;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
@@ -32,7 +33,7 @@ import java.util.List;
 @RestController
 //@RequestMapping(path = "/cidades", produces = AlgaMediaTypes.V2_APPLICATION_JSON_VALUE)
 @RequestMapping(path = "/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CidadeControllerV2 {
+public class CidadeControllerV2 implements CidadeControllerV2OpenApi {
 
 	public static final String CIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
 	
@@ -102,19 +103,19 @@ public class CidadeControllerV2 {
 		}
 	}
 
-//  Não pode ser mapeado na mesma URL em um MediaType diferente, já que não aceita entrada e retorna void.
-//	@DeleteMapping("/{cidadeId}")
-//	@ResponseStatus(HttpStatus.NO_CONTENT)
-//	public void remover(@PathVariable Long cidadeId) {
-//
-//		try {
-//			cidadeService.excluir(cidadeId);
-//			cidadeRepository.flush();
-//		} catch (EmptyResultDataAccessException e) {
-//			throw new CidadeNaoEncontradaException(cidadeId);
-//		} catch (DataIntegrityViolationException e) {
-//			throw new EntidadeEmUsoException(String.format(CIDADE_EM_USO, cidadeId));
-//		}
-//	}
+  //Não pode ser mapeado na mesma URL em um MediaType diferente, já que não aceita entrada e retorna void.
+	@DeleteMapping("/{cidadeId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long cidadeId) {
+
+		try {
+			cidadeService.excluir(cidadeId);
+			cidadeRepository.flush();
+		} catch (EmptyResultDataAccessException e) {
+			throw new CidadeNaoEncontradaException(cidadeId);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format(CIDADE_EM_USO, cidadeId));
+		}
+	}
 
 }
