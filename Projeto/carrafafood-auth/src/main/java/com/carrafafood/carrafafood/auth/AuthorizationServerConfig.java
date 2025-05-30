@@ -32,7 +32,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .secret(passwordEncoder.encode("web123"))
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes("write", "read")
-                .accessTokenValiditySeconds(60 * 60 * 6);
+                .accessTokenValiditySeconds(60 * 60 * 6)
+                .refreshTokenValiditySeconds(60* 60);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         endpoints
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                .reuseRefreshTokens(false);
     }
 }
