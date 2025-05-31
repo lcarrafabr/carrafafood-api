@@ -35,12 +35,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenValiditySeconds(60 * 60 * 6)
                 .refreshTokenValiditySeconds(60* 60)
 
-                //criando um grant_tipe simulando um outro backend pra se conectar a API
+                //criando um client_credentials simulando um outro backend pra se conectar a API
                 .and()
                 .withClient("faturamento")
                     .secret(passwordEncoder.encode("faturamento123"))
                     .authorizedGrantTypes("client_credentials")
-                    .scopes("write", "read");
+                    .scopes("write", "read")
+
+                //Usando authorization_code
+                .and()
+                .withClient("foodanalytics")
+                    .secret(passwordEncoder.encode("foodanalytics123"))
+                    .authorizedGrantTypes("authorization_code")
+                    .scopes("write", "read")
+                    .redirectUris("http://aplicacao-cliente.com.br");
     }
 
     @Override
