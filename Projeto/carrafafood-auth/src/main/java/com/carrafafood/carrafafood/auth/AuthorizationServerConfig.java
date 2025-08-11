@@ -42,6 +42,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .authorizedGrantTypes("client_credentials")
                     .scopes("write", "read")
 
+                .and()
+                .withClient("webadmin")
+                .authorizedGrantTypes("implicit")
+                .scopes("write", "read")
+                .redirectUris("http://aplicacao-cliente.com.br")
+
                 //Usando authorization_code
                 .and()
                 .withClient("foodanalytics")
