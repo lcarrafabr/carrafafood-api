@@ -9,6 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +27,8 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                     //.antMatchers("/v1/cozinhas/**").permitAll()//Caso queira permitir uma pagina sem autenticação tem que ser antes do .anyRequest().authenticated();
                     .anyRequest().authenticated()
                 .and()
-                    .oauth2ResourceServer().opaqueToken();
+                    //.oauth2ResourceServer().opaqueToken();
+                    .oauth2ResourceServer().jwt();
 
 //        http.httpBasic()
 //                .and()
@@ -37,5 +42,13 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 //
 //                .and()
 //                .csrf().disable();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+
+        var secret = new SecretKeySpec("0gO2yPfwxUgi p/eh+Gwp82oOJoR+nxy+/NFdXHqSti4=".getBytes(), "HmacSHA256");
+
+        return NimbusJwtDecoder.withSecretKey(secret).build();
     }
 }
