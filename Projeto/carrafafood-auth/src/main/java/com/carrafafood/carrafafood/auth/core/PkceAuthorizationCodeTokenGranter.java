@@ -1,4 +1,4 @@
-package com.carrafafood.carrafafood.auth;// Solução baseada em: https://github.com/spring-projects/spring-security-oauth/pull/675/files
+package com.carrafafood.carrafafood.auth.core;// Solução baseada em: https://github.com/spring-projects/spring-security-oauth/pull/675/files
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

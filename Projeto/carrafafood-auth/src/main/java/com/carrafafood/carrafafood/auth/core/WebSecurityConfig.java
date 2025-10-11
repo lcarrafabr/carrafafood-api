@@ -1,4 +1,4 @@
-package com.carrafafood.carrafafood.auth;
+package com.carrafafood.carrafafood.auth.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,20 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication()
-                .withUser("lcarrafa")
-                    .password(passwordEncoder().encode("123456"))
-                    .roles("ADMIN")
-                .and()
-                .withUser("debora")
-                    .password(passwordEncoder().encode("123"))
-                    .roles("ADMIN");
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
 
@@ -43,9 +29,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return super.userDetailsService();
-    }
+
+
+
+    //Removido após buscar usuario do banco de dados
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//        auth.inMemoryAuthentication()
+//                .withUser("lcarrafa")
+//                    .password(passwordEncoder().encode("123456"))
+//                    .roles("ADMIN")
+//                .and()
+//                .withUser("debora")
+//                    .password(passwordEncoder().encode("123"))
+//                    .roles("ADMIN");
+//    }
+
+
+
+    //removido após usar o JpaUserDetailsService
+//    @Bean
+//    @Override
+//    protected UserDetailsService userDetailsService() {
+//        return super.userDetailsService();
+//    }
 }

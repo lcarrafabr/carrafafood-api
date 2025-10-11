@@ -1,4 +1,4 @@
-package com.carrafafood.carrafafood.auth;
+package com.carrafafood.carrafafood.auth.core;
 
 import com.sun.istack.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
