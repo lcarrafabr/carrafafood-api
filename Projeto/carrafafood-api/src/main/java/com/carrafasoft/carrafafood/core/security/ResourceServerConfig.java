@@ -44,11 +44,13 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 //                .csrf().disable();
     }
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
 
-        var secret = new SecretKeySpec("0gO2yPfwxUgi p/eh+Gwp82oOJoR+nxy+/NFdXHqSti4=".getBytes(), "HmacSHA256");
-
-        return NimbusJwtDecoder.withSecretKey(secret).build();
-    }
+    //REMOVIDO APÓS INLCUIR A CHAVE PUBLICA algafood-pkey.pem
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+//
+//        var secret = new SecretKeySpec("0gO2yPfwxUgi p/eh+Gwp82oOJoR+nxy+/NFdXHqSti4=".getBytes(), "HmacSHA256");
+//
+//        return NimbusJwtDecoder.withSecretKey(secret).build();
+//    }
 }
