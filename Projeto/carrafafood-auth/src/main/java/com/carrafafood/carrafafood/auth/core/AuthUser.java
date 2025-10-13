@@ -10,10 +10,12 @@ import java.util.Collections;
 public class AuthUser extends User {
 
     private String fullName;
+    private Long userId;
 
     public AuthUser(Usuario usuario) {
         super(usuario.getEmail(), usuario.getSenha(), Collections.emptyList());
 
         this.fullName = usuario.getNome();
+        this.userId = usuario.getId();
     }
 }
