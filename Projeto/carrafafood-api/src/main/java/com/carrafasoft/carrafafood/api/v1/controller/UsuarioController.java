@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/usuarios")//, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Autowired
@@ -49,6 +49,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(usuario);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioModel adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {

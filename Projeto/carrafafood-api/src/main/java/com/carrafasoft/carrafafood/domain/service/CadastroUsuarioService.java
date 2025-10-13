@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.domain.model.Grupo;
 import com.carrafasoft.carrafafood.domain.model.Usuario;
 import com.carrafasoft.carrafafood.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class CadastroUsuarioService {
 
     @Autowired
     private CadastroGrupoService cadastroGrupo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //@Autowired
     //private EntityManager manager;
@@ -40,6 +44,10 @@ public class CadastroUsuarioService {
             throw new NegocioException(String.format(EMAIL_CADASTRADO_EXISTENTE, usuario.getEmail()));
         }
 
+        if (usuario.isNovo()) {
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
+
         return usuarioRepository.save(usuario);
     }
 
@@ -47,11 +55,11 @@ public class CadastroUsuarioService {
     public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
         Usuario usuario = buscarOuFalhar(usuarioId);
 
-        if (usuario.senhaNaoCoincideCom(senhaAtual)) {
-            throw new NegocioException(SENHA_NAO_COINCIDE);
+        if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
+            throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
         }
 
-        usuario.setSenha(novaSenha);
+        usuario.setSenha(passwordEncoder.encode(novaSenha));
     }
 
     @Transactional
