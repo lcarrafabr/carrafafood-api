@@ -9,6 +9,7 @@ import com.carrafasoft.carrafafood.api.v1.model.input.PedidoInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.carrafasoft.carrafafood.core.data.PageWrapper;
 import com.carrafasoft.carrafafood.core.data.PageableTranslator;
+import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/v1/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/pedidos")//, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
@@ -54,7 +55,8 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
-
+    @Autowired
+    private AlgaSecurity algaSecurity;
 
 //    @GetMapping
 //    public MappingJacksonValue listar(@RequestParam(required = false, name = "campos") String campos) {
@@ -104,15 +106,15 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pedidoModelAssembler.toModel(pedido);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoModel adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
         try {
             Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
-            // TODO pegar usuário autenticado
             novoPedido.setCliente(new Usuario());
-            novoPedido.getCliente().setId(1L);
+            novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
 
             novoPedido = emissaoPedido.emitir(novoPedido);
 
