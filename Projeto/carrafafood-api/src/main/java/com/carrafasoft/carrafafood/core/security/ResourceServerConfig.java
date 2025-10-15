@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.core.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //usado após a aula de @PreAuthorize
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -21,13 +23,17 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
 
         http
-                    .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/v1/cozinhas/**").hasAuthority("EDITAR_COZINHAS")
-                .antMatchers(HttpMethod.PUT, "/v1/cozinhas/**").hasAuthority("EDITAR_COZINHAS")
-                .antMatchers(HttpMethod.GET, "/v1/cozinhas/**").authenticated()
+                  //  .authorizeRequests()
+
+                //removido para a aula de @PreAuthorize colocando nos metodos
+//                .antMatchers(HttpMethod.POST, "/v1/cozinhas/**").hasAuthority("EDITAR_COZINHAS")
+//                .antMatchers(HttpMethod.PUT, "/v1/cozinhas/**").hasAuthority("EDITAR_COZINHAS")
+//                .antMatchers(HttpMethod.GET, "/v1/cozinhas/**").authenticated()
+
+
                     //.antMatchers("/v1/cozinhas/**").permitAll()//Caso queira permitir uma pagina sem autenticação tem que ser antes do .anyRequest().authenticated();
-                    .anyRequest().denyAll()
-                .and()
+               //     .anyRequest().denyAll()
+              //  .and()
                     //.oauth2ResourceServer().opaqueToken();
                     .oauth2ResourceServer()
                 .jwt()
