@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.v1.assembler.ProdutoModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.model.dto.ProdutoModel;
 import com.carrafasoft.carrafafood.api.v1.model.input.ProdutoInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.model.Produto;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.repository.ProdutoRepository;
@@ -42,6 +43,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @Override
     @GetMapping
     public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
@@ -60,6 +62,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
                 .add(algaLinks.linkToProdutos(restauranteId));
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/{produtoId}")
     public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
@@ -67,6 +70,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return produtoModelAssembler.toModel(produto);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel adicionar(@PathVariable Long restauranteId,
@@ -81,6 +85,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return produtoModelAssembler.toModel(produto);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @PutMapping("/{produtoId}")
     public ProdutoModel atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
                                   @RequestBody @Valid ProdutoInput produtoInput) {

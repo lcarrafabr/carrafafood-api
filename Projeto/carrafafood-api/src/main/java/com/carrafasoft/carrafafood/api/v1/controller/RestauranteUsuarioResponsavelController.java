@@ -4,6 +4,7 @@ import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.assembler.UsuarioModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.model.dto.UsuarioModel;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @GetMapping
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
@@ -47,6 +49,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
                 .add(algaLinks.linkToResponsaveisRestaurante(restauranteId));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
@@ -55,6 +58,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @PutMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> associar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {

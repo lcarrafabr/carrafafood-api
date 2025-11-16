@@ -15,6 +15,7 @@ import com.carrafasoft.carrafafood.api.v1.model.dto.RestauranteBasicoModel;
 import com.carrafasoft.carrafafood.api.v1.model.dto.RestauranteModel;
 import com.carrafasoft.carrafafood.api.v1.model.input.RestauranteInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.CozinhaNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
@@ -71,6 +72,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 
 
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 //	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
@@ -89,6 +91,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 //		return listar();
 //	}
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@ApiOperation(value = "Lista restaurantes", hidden = true)
 	//@JsonView(RestauranteView.ApenasNome.class)
 	public CollectionModel<RestauranteApenasNomeModel> listarApenasNomes() {
@@ -119,7 +122,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 
 
 
-	/**Esse codigo comenmtado é para quando quiser fazer projeção de rescursos, o exemplo não comentado é quando quer fazer dinamico*/
+	/**Esse codigo comentado é para quando quiser fazer projeção de rescursos, o exemplo não comentado é quando quer fazer dinamico*/
 
 //	@GetMapping
 //	public List<RestauranteModel> listar() {
@@ -135,6 +138,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 //	}
 //
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 
@@ -143,6 +147,8 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return restauranteModelAssembler.toModel(restaurante);
 	}
 
+
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PostMapping
 	public RestauranteModel adicionar(@Valid @RequestBody RestauranteInput restauranteInput) {
 
@@ -155,6 +161,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{restauranteId}")
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 								 @Valid @RequestBody RestauranteInput restauranteInput) {
@@ -237,6 +244,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return restauranteRepository.buscarPrimeiro();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping("/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -246,6 +254,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@DeleteMapping("/{restauranteId}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -255,6 +264,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -264,6 +274,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -273,6 +284,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -284,6 +296,7 @@ RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping("/ativacoes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
