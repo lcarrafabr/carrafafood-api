@@ -43,7 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("carrafafood-web")
                     .secret(passwordEncoder.encode("web123"))
                     .authorizedGrantTypes("password", "refresh_token")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
                 .accessTokenValiditySeconds(60 * 60 * 6)
                 .refreshTokenValiditySeconds(60* 60)
 
@@ -52,12 +52,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("faturamento")
                     .secret(passwordEncoder.encode("faturamento123"))
                     .authorizedGrantTypes("client_credentials")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
 
                 .and()
                 .withClient("webadmin")
                 .authorizedGrantTypes("implicit")
-                .scopes("write", "read")
+                .scopes("WRITE", "READ")
                 .redirectUris("http://aplicacao-cliente.com.br")
 
                 //Usando authorization_code
@@ -65,7 +65,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("foodanalytics")
                     .secret(passwordEncoder.encode("foodanalytics123"))
                     .authorizedGrantTypes("authorization_code")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
                     .redirectUris("http://aplicacao-cliente.com.br");
     }
 
