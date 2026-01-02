@@ -6,6 +6,7 @@ import com.carrafasoft.carrafafood.api.v1.assembler.CidadeModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.model.dto.CidadeModel;
 import com.carrafasoft.carrafafood.api.v1.model.input.CidadeInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.CidadeControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.core.web.AlgaMediaTypes;
 import com.carrafasoft.carrafafood.domain.exception.CidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeEmUsoException;
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cidades")
 public class CidadeController implements CidadeControllerOpenApi {
 
 	public static final String CIDADE_EM_USO = "Cidade de código %d não pode ser removida, pois está em uso.";
@@ -45,6 +46,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@Deprecated
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
@@ -55,6 +57,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		//cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
@@ -64,6 +67,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadeModel;
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -82,6 +86,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping("/{cidadeId}")
 	public CidadeModel atualizar(@PathVariable Long cidadeId,
 								 @RequestBody @Valid CidadeInput cidadeInput) {
@@ -98,6 +103,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {

@@ -7,6 +7,7 @@ import com.carrafasoft.carrafafood.api.v1.assembler.EstadoModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.model.dto.EstadoModel;
 import com.carrafasoft.carrafafood.api.v1.model.input.EstadoInput;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.EstadoControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.exception.EstadoNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -51,6 +52,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping
 	public CollectionModel<EstadoModel> listar() {
 		List<Estado> todosEstados = estadoRepository.findAll();
@@ -58,6 +60,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toCollectionModel(todosEstados);
 	}
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping("/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId) {
 		Estado estado = estadoService.buscarOuFalhar(estadoId);
@@ -65,6 +68,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toModel(estado);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
@@ -75,6 +79,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toModel(estado);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PutMapping("/{estadoId}")
 	public EstadoModel atualizar(@PathVariable Long estadoId,
 								 @RequestBody @Valid EstadoInput estadoInput) {
@@ -87,6 +92,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toModel(estadoAtual);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@DeleteMapping("/{estadoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long estadoId) {

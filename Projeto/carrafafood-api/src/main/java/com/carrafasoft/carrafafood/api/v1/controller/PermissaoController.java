@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.api.v1.controller;
 
 import com.carrafasoft.carrafafood.api.v1.assembler.PermissaoModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.PermissaoControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.model.Permissao;
 import com.carrafasoft.carrafafood.domain.model.PermissaoModel;
 import com.carrafasoft.carrafafood.domain.repository.PermissaoRepository;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/permissoes")
 public class PermissaoController implements PermissaoControllerOpenApi {
 
     @Autowired
@@ -24,6 +25,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
     @Autowired
     private PermissaoModelAssembler permissaoModelAssembler;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public CollectionModel<PermissaoModel> listar() {
