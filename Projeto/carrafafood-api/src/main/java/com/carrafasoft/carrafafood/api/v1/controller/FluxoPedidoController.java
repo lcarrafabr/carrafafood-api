@@ -1,6 +1,7 @@
 package com.carrafasoft.carrafafood.api.v1.controller;
 
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.FluxoPedidoControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.service.FluxoPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,14 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/v1/pedidos/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/pedidos/{codigoPedido}")
 public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
 
     @Autowired
     private FluxoPedidoService fluxoPedido;
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/confirmacao")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    //@ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
 
         fluxoPedido.confirmar(codigoPedido);
@@ -24,6 +26,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/cancelamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {
@@ -31,6 +34,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/entrega")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {

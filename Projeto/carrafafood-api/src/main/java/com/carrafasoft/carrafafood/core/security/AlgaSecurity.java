@@ -1,5 +1,6 @@
 package com.carrafasoft.carrafafood.core.security;
 
+import com.carrafasoft.carrafafood.domain.repository.PedidoRepository;
 import com.carrafasoft.carrafafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,9 @@ public class AlgaSecurity {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public Authentication getAuthentication() {
 
@@ -30,5 +34,9 @@ public class AlgaSecurity {
             return false;
         }
         return restauranteRepository.existResponsavel(restauranteId, getUsuarioId());
+    }
+
+    public boolean gerenciaRestauranteDoPedido(String codigoPedido) {
+        return pedidoRepository.isPedidoGerenciadoPor(codigoPedido, getUsuarioId());
     }
 }
