@@ -2,6 +2,7 @@ package com.carrafasoft.carrafafood.api.v1.controller;
 
 import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.EstatisticasControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.filter.VendaDiariaFilter;
 import com.carrafasoft.carrafafood.domain.model.dto.VendaDiaria;
 import com.carrafasoft.carrafafood.domain.service.VendaQueryService;
@@ -29,6 +30,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
     private AlgaLinks algaLinks;
 
     @Override
+    @CheckSecurity.Estatisticas.PodeConsultar
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public EstatisticasModel estatisticas() {
         var estatisticasModel = new EstatisticasModel();
@@ -39,6 +41,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Estatisticas.PodeConsultar
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro,
                                                     @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
@@ -46,6 +49,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
     }
 
     @Override
+    @CheckSecurity.Estatisticas.PodeConsultar
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filtro,
                                                             @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
