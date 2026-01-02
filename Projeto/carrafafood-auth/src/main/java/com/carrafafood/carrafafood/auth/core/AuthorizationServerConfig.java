@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 @Configuration
@@ -36,38 +37,48 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private JwtKeyStoreProperties jwtKeyStoreProperties;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        clients.inMemory()
-                .withClient("carrafafood-web")
-                    .secret(passwordEncoder.encode("web123"))
-                    .authorizedGrantTypes("password", "refresh_token")
-                    .scopes("WRITE", "READ")
-                .accessTokenValiditySeconds(60 * 60 * 6)
-                .refreshTokenValiditySeconds(60* 60)
-
-                //criando um client_credentials simulando um outro backend pra se conectar a API
-                .and()
-                .withClient("faturamento")
-                    .secret(passwordEncoder.encode("faturamento123"))
-                    .authorizedGrantTypes("client_credentials")
-                    .scopes("WRITE", "READ")
-
-                .and()
-                .withClient("webadmin")
-                .authorizedGrantTypes("implicit")
-                .scopes("WRITE", "READ")
-                .redirectUris("http://aplicacao-cliente.com.br")
-
-                //Usando authorization_code
-                .and()
-                .withClient("foodanalytics")
-                    .secret(passwordEncoder.encode("foodanalytics123"))
-                    .authorizedGrantTypes("authorization_code")
-                    .scopes("WRITE", "READ")
-                    .redirectUris("http://aplicacao-cliente.com.br");
+        clients.jdbc(dataSource);
     }
+
+    //TODO aqui era os scopos inMemory, foi alterado para o banco de dados (codigo acima)
+//    @Override
+//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//
+//        clients.inMemory()
+//                .withClient("carrafafood-web")
+//                    .secret(passwordEncoder.encode("web123"))
+//                    .authorizedGrantTypes("password", "refresh_token")
+//                    .scopes("WRITE", "READ")
+//                .accessTokenValiditySeconds(60 * 60 * 6)
+//                .refreshTokenValiditySeconds(60* 60)
+//
+//                //criando um client_credentials simulando um outro backend pra se conectar a API
+//                .and()
+//                .withClient("faturamento")
+//                    .secret(passwordEncoder.encode("faturamento123"))
+//                    .authorizedGrantTypes("client_credentials")
+//                    .scopes("WRITE", "READ")
+//
+//                .and()
+//                .withClient("webadmin")
+//                .authorizedGrantTypes("implicit")
+//                .scopes("WRITE", "READ")
+//                .redirectUris("http://aplicacao-cliente.com.br")
+//
+//                //Usando authorization_code
+//                .and()
+//                .withClient("foodanalytics")
+//                    .secret(passwordEncoder.encode("foodanalytics123"))
+//                    .authorizedGrantTypes("authorization_code")
+//                    .scopes("WRITE", "READ")
+//                    .redirectUris("http://aplicacao-cliente.com.br");
+//    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
