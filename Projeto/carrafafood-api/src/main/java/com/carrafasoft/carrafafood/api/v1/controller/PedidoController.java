@@ -10,6 +10,7 @@ import com.carrafasoft.carrafafood.api.v1.openapi.controller.PedidoControllerOpe
 import com.carrafasoft.carrafafood.core.data.PageWrapper;
 import com.carrafasoft.carrafafood.core.data.PageableTranslator;
 import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
+import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.exception.EntidadeNaoEncontradaException;
 import com.carrafasoft.carrafafood.domain.exception.NegocioException;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
@@ -99,6 +100,7 @@ public class PedidoController implements PedidoControllerOpenApi {
             @ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
                     name = "campos", paramType = "query", type = "string")
     })
+    @CheckSecurity.Pedidos.PodeBuscar
     @GetMapping("/{codigoPedido}")
     public PedidoModel buscar(@PathVariable String codigoPedido) {
         Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
