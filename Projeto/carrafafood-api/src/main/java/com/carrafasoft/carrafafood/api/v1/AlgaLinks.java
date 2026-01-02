@@ -187,8 +187,13 @@ public class AlgaLinks {
     }
 
     public Link linkToRestauranteAbertura(Long restauranteId, String rel) {
-        return linkTo(methodOn(RestauranteController.class)
-                .abrir(restauranteId)).withRel(rel);
+        return Link.of(
+                String.valueOf(linkTo(RestauranteController.class)
+                        .slash(restauranteId)
+                        .slash("abertura")
+                        .toUri()),
+                rel
+        );
     }
 
     public Link linkToRestauranteFechamento(Long restauranteId, String rel) {

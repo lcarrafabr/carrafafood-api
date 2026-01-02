@@ -27,6 +27,14 @@ public interface RestauranteRepository
 	/*Foi externalizado para um XML*/
 	//@Query("from Restaurante where nome like %:nome% and cozinha.id = :id")
 	List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinha);
+
+//	@Query(nativeQuery = true,
+//	value = "select case when count(1) > 0 then true else false end " +
+//			"from Restaurante rest " +
+//			"join rest.responsaveis resp " +
+//			"where rest.id = :restauranteId " +
+//			"and resp.id = :usuarioId ")
+	boolean existResponsavel(Long restauranteId, Long usuarioId);
 	
 
 	
