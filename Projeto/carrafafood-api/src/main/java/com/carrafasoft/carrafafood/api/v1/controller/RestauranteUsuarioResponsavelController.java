@@ -4,6 +4,7 @@ import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.assembler.UsuarioModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.model.dto.UsuarioModel;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
 import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.model.Restaurante;
 import com.carrafasoft.carrafafood.domain.service.CadastroRestauranteService;
@@ -26,6 +27,9 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 
     @Autowired
     private AlgaLinks algaLinks;
+
+    @Autowired
+    private AlgaSecurity algaSecurity;
 
     @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override

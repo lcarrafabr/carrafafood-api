@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.api.v1.assembler;
 import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.controller.CidadeController;
 import com.carrafasoft.carrafafood.api.v1.model.dto.CidadeModel;
+import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
 import com.carrafasoft.carrafafood.domain.model.Cidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public CidadeModelAssembler() {
         super(CidadeController.class, CidadeModel.class);
     }
@@ -30,9 +34,13 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 
         modelMapper.map(cidade, cidadeModel);
 
-        cidadeModel.add(algaLinks.linkToCidades("cidades"));
+        if (algaSecurity.podeConsultarCidades()) {
+            cidadeModel.add(algaLinks.linkToCidades("cidades"));
+        }
 
-        cidadeModel.getEstado().add(algaLinks.linkToEstado(cidadeModel.getEstado().getId()));
+        if (algaSecurity.podeConsultarEstados()) {
+            cidadeModel.getEstado().add(algaLinks.linkToEstado(cidadeModel.getEstado().getId()));
+        }
 
         return cidadeModel;
     }
@@ -60,7 +68,12 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 
     @Override
     public CollectionModel<CidadeModel> toCollectionModel(Iterable<? extends Cidade> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToCidades());
+        CollectionModel<CidadeModel> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarCidades()) {
+            collectionModel.add(algaLinks.linkToCidades());
+        }
+
+        return collectionModel;
     }
 }

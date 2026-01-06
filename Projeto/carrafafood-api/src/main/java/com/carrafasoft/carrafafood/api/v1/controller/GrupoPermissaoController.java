@@ -3,6 +3,7 @@ package com.carrafasoft.carrafafood.api.v1.controller;
 import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.assembler.PermissaoModelAssembler;
 import com.carrafasoft.carrafafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
 import com.carrafasoft.carrafafood.core.security.CheckSecurity;
 import com.carrafasoft.carrafafood.domain.model.Grupo;
 import com.carrafasoft.carrafafood.domain.model.PermissaoModel;
@@ -27,12 +28,31 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+    @Override
     @GetMapping
     public CollectionModel<PermissaoModel> listar(@PathVariable Long grupoId) {
         Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
 
-        return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
+        CollectionModel<PermissaoModel> permissoesModel
+                = permissaoModelAssembler.toCollectionModel(grupo.getPermissoes())
+                .removeLinks();
+
+        permissoesModel.add(algaLinks.linkToGrupoPermissoes(grupoId));
+
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+            permissoesModel.add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+
+            permissoesModel.getContent().forEach(permissaoModel -> {
+                permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
+                        grupoId, permissaoModel.getId(), "desassociar"));
+            });
+        }
+
+        return permissoesModel;
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
