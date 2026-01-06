@@ -82,10 +82,10 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface PodeCriar { }
 
-        @PreAuthorize("@algaSecurity.podeGerenciarPedidos(#codigoPedido)")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        public @interface PodeGerenciarPedidos { }
+//        @PreAuthorize("@algaSecurity.podeGerenciarPedidos(#codigoPedido)")
+//        @Retention(RUNTIME)
+//        @Target(METHOD)
+//        public @interface PodeGerenciarPedidos { }
 
 //        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
 //        @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or " +
@@ -107,11 +107,11 @@ public @interface CheckSecurity {
 //        @Target(METHOD)
 //        public @interface PodeCriar { }
 //
-//        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('GERENCIAR_PEDIDOS') or "
-//                + "@algaSecurity.gerenciaRestauranteDoPedido(#codigoPedido))")
-//        @Retention(RUNTIME)
-//        @Target(METHOD)
-//        public @interface PodeGerenciarPedidos { }
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('GERENCIAR_PEDIDOS') or "
+                + "@algaSecurity.gerenciaRestauranteDoPedido(#codigoPedido))")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeGerenciarPedidos { }
 
     }
 
