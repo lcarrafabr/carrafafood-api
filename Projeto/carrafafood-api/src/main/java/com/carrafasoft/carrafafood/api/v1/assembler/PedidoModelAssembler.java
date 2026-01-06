@@ -4,6 +4,7 @@ import com.carrafasoft.carrafafood.api.v1.AlgaLinks;
 import com.carrafasoft.carrafafood.api.v1.controller.*;
 import com.carrafasoft.carrafafood.api.v1.model.dto.PedidoModel;
 import com.carrafasoft.carrafafood.api.v1.controller.PedidoController;
+import com.carrafasoft.carrafafood.core.security.AlgaSecurity;
 import com.carrafasoft.carrafafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public PedidoModelAssembler() {
         super(PedidoController.class, PedidoModel.class);
     }
@@ -32,16 +36,19 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 
         pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
 
-        if(pedido.podeSerConfirmado()) {
-            pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedidoModel.getCodigo(), "confirmar"));
-        }
+        if(algaSecurity.podeGerenciarPedido(pedido.getCodigo())) {
 
-        if(pedido.podeSerCancelado()) {
-            pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedidoModel.getCodigo(), "cancelar"));
-        }
+            if(pedido.podeSerConfirmado()) {
+                pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedidoModel.getCodigo(), "confirmar"));
+            }
 
-        if(pedido.podeSerEntregue()){
-            pedidoModel.add(algaLinks.linkToEntregaPedido(pedidoModel.getCodigo(), "entregar"));
+            if(pedido.podeSerCancelado()) {
+                pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedidoModel.getCodigo(), "cancelar"));
+            }
+
+            if(pedido.podeSerEntregue()){
+                pedidoModel.add(algaLinks.linkToEntregaPedido(pedidoModel.getCodigo(), "entregar"));
+            }
         }
 
 
