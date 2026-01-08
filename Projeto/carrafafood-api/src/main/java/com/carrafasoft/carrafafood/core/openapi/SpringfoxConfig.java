@@ -25,11 +25,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -104,6 +102,11 @@ public class SpringfoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, PermissaoModel.class),
                         PermissoesModelOpenApi.class))
+
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme()))
+                .securityContexts(List.of(securityContext()))
+
                 .apiInfo(apiInfoV1())
                 .tags(new Tag("Cidades", "gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
@@ -116,6 +119,33 @@ public class SpringfoxConfig {
                         new Tag("Usuários", "Gerencia os usuários"),
                         new Tag("Estatísticas", "Estatísticas da AlgaFood"),
                         new Tag("Permissões", "Gerencia as permissões"));
+    }
+
+    private List<AuthorizationScope> scopes() {
+
+        return Arrays.asList(new AuthorizationScope("READ", "Acesso de leitura"),
+                new AuthorizationScope("WRITE", "Acesso de escrita"));
+    }
+
+    private List<GrantType> grantTypes() {
+
+        return Arrays.asList(new ResourceOwnerPasswordCredentialsGrant("/oauth/token"));
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(securityReference()).build();
+    }
+
+    private List<SecurityReference> securityReference() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("Authorization", authorizationScopes));
+    }
+
+    private HttpAuthenticationScheme authenticationScheme() {
+        return HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("Authorization").build();
     }
 
 
@@ -147,6 +177,10 @@ public class SpringfoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, CidadeModelV2.class),
                         CidadesModelV2OpenApi.class))
+
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme()))
+                .securityContexts(List.of(securityContext()))
 
                 .apiInfo(apiInfoV2())
 
